@@ -1,1 +1,1 @@
-# Tokajuk (Tworzenie stron i aplikacji internetowych)
+# Internet (Tworzenie stron i aplikacji internetowych)
