@@ -1,0 +1,48 @@
+body
+{
+    background-color: black;
+}
+
+h1
+{
+    color: white;
+}
+
+.galeria .galeria-pelny {
+    position: relative;
+    text-align: left;
+    margin-bottom: .5em;
+    width: 600px;
+    height: 400px;
+}
+.galeria .galeria-pelny h1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .5);
+    color: #fff;
+    font-size: 1.3rem;
+    padding: 2px 5px;
+    z-index: 1;
+}
+.galeria .galeria-pelny img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.galeria ul.galeria-miniaturki {
+    margin: 0;
+    padding: 0;
+}
+.galeria ul.galeria-miniaturki li {
+    display: inline-block;
+}
+.galeria ul.galeria-miniaturki li img {
+    height: auto;
+    width: 150px;
+    vertical-align: middle;
+}
+.galeria ul.galeria-miniaturki li img.aktywny {
+    opacity: .65;
+}

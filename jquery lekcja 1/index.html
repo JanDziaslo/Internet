@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Galeria</title>
+    <script src="jquery/jquery.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="style.css" type="text/css"/>
+</head>
+<body>
+<main>
+    <h1>Ciągniki siodłowe</h1>
+    <div class="galeria">
+        <div class="galeria-pelny">
+            <img src="img/scania.webp"/>
+        </div>
+
+        <ul class="galeria-miniaturki">
+            <li><a href="img/scania.webp"><img src="img/scania.webp"/></a></li>
+            <li><a href="img/scaniaR.jpg"><img src="img/scaniaR.jpg"/></a></li>
+            <li><a href="img/2.jpg"><img src="img/2.jpg"/></a></li>
+        </ul>
+    </div>
+
+</main>
+<script>
+    $(function() {
+        $('.galeria-miniaturki a').click(function(e) {
+            e.preventDefault();
+            var nowyObraz = $(this).attr('href');
+            $('.galeria-pelny img').fadeOut(300, function() {
+                $(this).attr('src', nowyObraz).fadeIn(300);
+            });
+            $('.galeria-miniaturki img').removeClass('aktywny');
+            $(this).find('img').addClass('aktywny');
+        });
+    });
+
+</script>
+</body>
+</html>
