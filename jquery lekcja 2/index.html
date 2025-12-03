@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Galeria</title>
+    <script src="jquery/jquery.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="style.css" type="text/css"/>
+</head>
+<body>
+<main>
+    <h1>Slider</h1>
+    <div class="galeria">
+        <div class="galeria-pelny">
+            <img src="img/scania.webp" class="slide" alt="Scania 1"/>
+            <img src="img/scaniaR.jpg" class="slide" alt="Scania 2" style="display:none;"/>
+            <img src="img/2.jpg" class="slide" alt="Scania 3" style="display:none;"/>
+        </div>
+        <div class="przyciski">
+            <button class="poprzedni"><---</button>
+            <button class="nastepny">---></button>
+        </div>
+    </div>
+
+</main>
+<script>
+    $(function()
+    {
+        var i = 0;
+        var slides = $('.slide');
+        var auto;
+
+        function show(n)
+        {
+            slides.eq(i).fadeOut(400);
+            i = (n + slides.length) % slides.length;
+            slides.eq(i).fadeIn(400);
+        }
+
+        function start()
+        {
+            auto = setInterval(function() { show(i + 1); }, 3000);
+        }
+
+        $('.nastepny').click(function()
+        {
+            clearInterval(auto);
+            show(i + 1);
+            start();
+        });
+
+        $('.poprzedni').click(function()
+        {
+            clearInterval(auto);
+            show(i - 1);
+            start();
+        });
+
+        $('.galeria-pelny').hover(
+            function() { clearInterval(auto); },
+            function() { start(); }
+        );
+
+        start();
+    });
+
+</script>
+</body>
+</html>

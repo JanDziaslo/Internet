@@ -1,0 +1,57 @@
+body {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+h1 {
+    color: white;
+    text-align: center;
+}
+
+main {
+    text-align: center;
+}
+
+.galeria {
+    display: inline-block;
+}
+
+.galeria-pelny {
+    position: relative;
+    width: 600px;
+    height: 400px;
+    overflow: hidden;
+    background-color: #111;
+}
+
+.galeria-pelny .slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.przyciski {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.przyciski button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.przyciski button:hover {
+    background-color: #555;
+}
