@@ -1,0 +1,89 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #222;
+    color: #eee;
+    margin: 0;
+    padding: 20px;
+}
+h1, .kontener-filtrow {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.przycisk-filtr {
+    background: #444;
+    color: #fff;
+    border: 1px solid #555;
+    padding: 10px 20px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+.przycisk-filtr:hover, .przycisk-filtr.aktywny {
+    background: #e74c3c;
+    border-color: #c0392b;
+}
+.siatka-galerii {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+}
+.kafelek {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 4px;
+    aspect-ratio: 3/2;
+    background: #333;
+    display: none;
+}
+.kafelek img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s;
+    display: block;
+}
+.kafelek:hover img {
+    transform: scale(1.1);
+}
+.modal-tlo {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+}
+.modal-kontener {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    cursor: default;
+}
+.modal-obraz {
+    max-width: 100%;
+    max-height: 90vh;
+    display: block;
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+.przycisk-zamknij {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    color: #fff;
+    font-size: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.przycisk-zamknij:hover {
+    opacity: 1;
+}

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria</title>
+    <script src="jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Galeria</h1>
+<div class="kontener-filtrow">
+    <button class="przycisk-filtr aktywny" data-kategoria="wszystkie">Wszystkie</button>
+    <button class="przycisk-filtr" data-kategoria="natura">Natura</button>
+    <button class="przycisk-filtr" data-kategoria="miasta">Miasta</button>
+    <button class="przycisk-filtr" data-kategoria="ciagniki">Ciagniki siodlowe</button>
+</div>
+
+<div class="siatka-galerii">
+    <div class="kafelek" data-kategoria="natura">
+        <img src="obrazki/Depositphotos_27140749_xl-2015_wynik.jpg" alt="kwiatki rozowe">
+    </div>
+    <div class="kafelek" data-kategoria="natura">
+        <img src="obrazki/Depositphotos_139020422_xl-2015_wynik.jpg" alt="od teraz to jest kwiatek">
+    </div>
+
+
+    <div class="kafelek" data-kategoria="miasta">
+        <img src="obrazki/Depositphotos_156680148_xl-2015_wynik.jpg" alt="miasto1">
+    </div>
+    <div class="kafelek" data-kategoria="miasta">
+        <img src="obrazki/Depositphotos_90895780_xl-2015_wynik.jpg" alt="trzeba sobie wyobrazic ze za oknem jest miasto">
+    </div>
+    
+    
+    <div class="kafelek" data-kategoria="ciagniki">
+        <img src="obrazki/Depositphotos_25084357_xl-2015_wynik.jpg" alt="scania">
+    </div>
+    <div class="kafelek" data-kategoria="ciagniki">
+        <img src="obrazki/Depositphotos_10031466_xl-2015_wynik.jpg" alt="mercedes">
+    </div>
+</div>
+
+<div class="modal-tlo">
+    <div class="modal-kontener">
+        <span class="przycisk-zamknij">&times;</span>
+        <img src="" alt="Powiększenie" class="modal-obraz">
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+
+
+        $('.kafelek').each(function(i) {
+            $(this).delay(i * 150).fadeIn(500);
+        });
+
+        $('.przycisk-filtr').on('click', function() {
+            var kategoria = $(this).data('kategoria');
+
+            $('.przycisk-filtr').removeClass('aktywny');
+            $(this).addClass('aktywny');
+
+            var $wszystkie = $('.kafelek');
+            var $doPokazania = (kategoria === 'wszystkie')
+                ? $wszystkie
+                : $wszystkie.filter('[data-kategoria="' + kategoria + '"]');
+
+            var $doUkrycia = $wszystkie.not($doPokazania);
+
+            $doUkrycia.fadeOut(300).promise().done(function() {
+                $doPokazania.fadeIn(300);
+            });
+        });
+
+        $('.kafelek').on('click', function() {
+            var $img = $(this).find('img');
+            var maleSrc = $img.attr('src');
+
+            var duzeSrc = maleSrc.replace('/400/300', '/1200/900');
+
+            $('.modal-obraz').attr('src', duzeSrc);
+
+            $('.modal-tlo').css('display', 'flex').hide().fadeIn(300);
+        });
+
+
+        $('.modal-tlo, .przycisk-zamknij').on('click', function(e) {
+
+            if (e.target !== $('.modal-obraz')[0] && !$(e.target).closest('.modal-kontener').length || $(e.target).is('.przycisk-zamknij')) {
+                $('.modal-tlo').fadeOut(300);
+            }
+        });
+
+    });
+
+</script>
+</body>
+</html>
