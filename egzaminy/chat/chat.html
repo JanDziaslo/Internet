@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Chat</title>
     <link rel="stylesheet" href="styl.css">
+    <script src="script.js"></script>
 </head>
 <body>
 <header>
@@ -21,16 +22,19 @@
         <img src="img/krzysiek.jpg" alt="Krzysiek">
         <p>Tak! A ty?</p>
     </div>
-    <label for="wiadomosc">Wpisz wiadomosc</label>
-    <input type="text" name="wiadomosc" id="wiadomosc">
-    <button type="button" onclick="wyslij()">Wyślij</button>
-    <br>
-    <button type="button" onclick="generuj">Generuj losową odpowiedź</button>
-    
 </div>
+    <div class="wiadomosci">
+        <form action="#">
+        <label for="wiadomosc">Wpisz wiadomosc</label>
+        <input type="text" name="wiadomosc" id="wiadomosc">
+        <button type="button" onclick="wyslij()">Wyślij</button>
+        <br>
+        <button type="button" onclick="generuj()">Generuj losową odpowiedź</button>
+        </form>
+    </div>
 </main>
 <aside class="boczny">
-    <h3>Chaty</h3>
+    <h3>Chaty</h3><br>
     <ul>
         <li>Ogólny</li>
         <li>Tematyczne
@@ -42,10 +46,11 @@
             </ol>
         </li>
     </ul>
-    <h3>Uczestnicy</h3>
-    <p>Jolanta Nowak</p>
-    <img src="img/jolka.jpg" alt="Jolanta Nowak">
-    <p>Krzystof Łukasiuk</p>
+    <br>
+    <h3>Uczestnicy</h3><br>
+    <p>Jolanta Nowak</p><br>
+    <img src="img/jolka.jpg" alt="Jolanta Nowak"><br><br>
+    <p>Krzystof Łukasiuk</p><br>
     <img src="img/krzysiek.jpg" alt="Krzystof Łukasiuk">
 
 </aside>

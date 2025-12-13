@@ -1,7 +1,7 @@
 *
 {
     font-family: Garamond;
-    margin:0;
+    margin: 0;
 }
 header
 {
@@ -15,18 +15,22 @@ main
 {
     height: 80%;
     width: 80%;
+    float: left;
 }
 .boczny
 {
     background-color: coral;
     width: 20%;
     height: 680px;
+    float: left;
+    margin-top: -37px;
 }
 footer
 {
     background-color: tomato;
     color: white;
-    text-align: center;    
+    text-align: center;
+    clear: both;
 }
 img
 {
@@ -52,12 +56,42 @@ img
 .jolanta
 {
     background-color: #EEE;
-    float: right;
+    float: left;
+    
 }
 .krzysiek
 {
-    clear: both;
     background-color: #ccc;
-    text-align: center;
+    float: right;
+    
+}
+.krzysiek img
+{
+    float: right;
+}
+.krzysiek p
+{
+    float: right;
+    margin-top: 1.2%;
+
+}
+.jolanta img
+{
     float: left;
+}
+.jolanta p
+{
+    float: left;
+    margin-top: 1.2%;
+}
+.wiadomosci
+{
+    clear: both;
+}
+button
+{
+    background-color: tomato;
+    border: DarkRed 1px solid;
+    padding: 5px;
+    font-weight: bold;
 }
