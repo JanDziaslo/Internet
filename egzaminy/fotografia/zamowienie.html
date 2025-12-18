@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Fotografia</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+<body>
+<header>
+    <h1>Fotografia artystyczna</h1>
+</header>
+<aside class="obrazki">
+    <img src="1.jpg" alt="obraz na sprzedaz" title="1.jpg">
+    <img src="1.jpg" alt="obraz na sprzedaz" title="2.jpg">
+    <img src="1.jpg" alt="obraz na sprzedaz" title="3.jpg">
+    <img src="1.jpg" alt="obraz na sprzedaz" title="4.jpg">
+    <img src="1.jpg" alt="obraz na sprzedaz" title="5.jpg">
+    <img src="1.jpg" alt="obraz na sprzedaz" title="6.jpg">
+    <img src="1.jpg" alt="obraz na sprzedaz" title="7.jpg">
+    <img src="1.jpg" alt="obraz na sprzedaz" title="8.jpg">
+    <img src="1.jpg" alt="obraz na sprzedaz" title="9.jpg">
+    <img src="1.jpg" alt="obraz na sprzedaz" title="10.jpg">
+</aside>
+<main>
+    <aside class="lewy">
+        <h3>Zamowienia</h3>
+        <label for="foto">Wybierz obraz:</label>
+        <input type="file" id="foto" accept="image/jpeg">
+        <br>
+        <label for="kopie">Liczba kopii:</label>
+        <input type="number" id="kopie">
+        <br>
+        <input type="radio" id="blyszczacy" name="papier" checked>
+        <label for="blyszczacy">Papier Blyszczacy </label>
+        <br>
+        <input type="radio" id="matowy" name="papier">
+        <label for="matowy">Papier Matowy </label>
+        <br>
+        <button onclick="skrypt()">Dodaj do koszyka</button>
+    </aside>
+    <nav>
+        <ul>
+            <li><a href="regulamin.html">Regulamin</a></li>
+            <li><a href="uslugi.html">Uslugi</a></li>
+            <li><a href="https://pixabay.com ">Zdjecia</a></li>
+        </ul>
+    </nav>
+    <aside class="prawy">
+        <h3>Koszyk</h3>
+        <div class="skrypt">
+            
+        </div>
+    </aside>
+</main>
+<footer>
+    <p>Autor strony: <em> Jan Dziąsło</em></p>
+</footer>
+</body>
+</html>
