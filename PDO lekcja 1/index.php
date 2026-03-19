@@ -16,12 +16,18 @@ require_once 'database.php';
 <?php
 
 if(isset($_POST['submit']) && $_POST['search']!=''){
-    $stmt = $pdo->prepare("SELECT * FROM pracownicy WHERE IMIE LIKE :imie OR NAZWISKO LIKE :nazwisko");
-    $stmt -> bindValue(':imie', '%'.$_POST['search'].'%', PDO::PARAM_STR);
-    $stmt -> bindValue(':nazwisko', '%'.$_POST['search'].'%', PDO::PARAM_STR);
+    $stmt = $pdo->prepare("SELECT p.*, z.NAZWA AS NAZWA_ZESPOLU, sz.IMIE AS IMIE_SZEFA, sz.NAZWISKO AS NAZWISKO_SZEFA
+                           FROM pracownicy p
+                           LEFT JOIN zespoly z ON p.ID_ZESP = z.ID_ZESP
+                           LEFT JOIN pracownicy sz ON p.ID_SZEFA = sz.ID_PRAC
+                           WHERE p.IMIE LIKE :szukaj OR p.NAZWISKO LIKE :szukaj OR sz.IMIE LIKE :szukaj OR sz.NAZWISKO LIKE :szukaj");
+    $stmt -> bindValue(':szukaj', '%'.$_POST['search'].'%', PDO::PARAM_STR);
     $stmt->execute();
 }else{
-    $stmt = $pdo->query('SELECT * FROM pracownicy');
+    $stmt = $pdo->query('SELECT p.*, z.NAZWA AS NAZWA_ZESPOLU, sz.IMIE AS IMIE_SZEFA, sz.NAZWISKO AS NAZWISKO_SZEFA
+                         FROM pracownicy p
+                         LEFT JOIN zespoly z ON p.ID_ZESP = z.ID_ZESP
+                         LEFT JOIN pracownicy sz ON p.ID_SZEFA = sz.ID_PRAC');
 }
 
 ?>
@@ -65,11 +71,11 @@ if(isset($_POST['submit']) && $_POST['search']!=''){
                     <th>Imię</th>
                     <th>Nazwisko</th>
                     <th>Etat</th>
-                    <th>Id szefa</th>
+                    <th>Szef</th>
                     <th>Zatrudniony</th>
                     <th>Placa pod</th>
                     <th>Placa dod</th>
-                    <th>id zesp</th>
+                    <th>Nazwa zespołu</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -80,11 +86,11 @@ if(isset($_POST['submit']) && $_POST['search']!=''){
                     echo '<td>'.$row['IMIE'].'</td>';
                     echo '<td>'.$row['NAZWISKO'].'</td>';
                     echo '<td>'.$row['ETAT'].'</td>';
-                    echo '<td>'.$row['ID_SZEFA'].'</td>';
+                    echo '<td>'.($row['IMIE_SZEFA'] ? $row['IMIE_SZEFA'].' '.$row['NAZWISKO_SZEFA'] : '-').'</td>';
                     echo '<td>'.$row['ZATRUDNIONY'].'</td>';
                     echo '<td>'.$row['PLACA_POD'].'</td>';
                     echo '<td>'.$row['PLACA_DOD'].'</td>';
-                    echo '<td>'.$row['ID_ZESP'].'</td>';
+                    echo '<td>'.$row['NAZWA_ZESPOLU'].'</td>';
                     echo '</tr>';
                 }
                 ?>
