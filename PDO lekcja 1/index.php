@@ -56,8 +56,11 @@ if(isset($_POST['submit']) && $_POST['search']!=''){
             <div class="col-md-4">
                 <input type="text" class="form-control" name="search" />
             </div>
-            <div class="col-md-8 text-left">
+            <div class="col-md-6 text-left">
                 <input type="submit" class="btn btn-primary" name="submit" value="Szukaj" />
+            </div>
+            <div class="col-md-2 text-right">
+            <a class="btn btn-success" href="dodaj_prac.php" role="button">Dodaj Pracownika</a>
             </div>
         </div>
     </form>
