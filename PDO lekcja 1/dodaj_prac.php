@@ -31,8 +31,8 @@ require_once 'database.php';
     </div>
 </nav>
 
-<div class="container">
-    <form>
+<div class="container"><br><br>
+    <form action="dodaj_prac.php" method="post" novalidate>
         <div class="mb-3">
             <label for="imie" class="form-label">Imię</label>
             <input  class="form-control" id="imie" name="imie">
@@ -71,9 +71,14 @@ require_once 'database.php';
             <input  class="form-control" id="placa_pod" name="placa_pod" type="number">
             <div id="placa_podHelp" class="form-text"></div> <!-- przyda sie na pozniej -->
         </div>
+        <div class="mb-3">
+            <label for="placa_dod" class="form-label">Płaca dodatkowa</label>
+            <input  class="form-control" id="placa_dod" name="placa_dod" type="number">
+            <div id="placa_dodHelp" class="form-text"></div> <!-- przyda sie na pozniej -->
+        </div>
 
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Dodaj pracownika</button>
     </form>
 
 </div>
