@@ -1,23 +1,33 @@
 <?php
 require_once 'database.php';
 
+// dla zapisywania zawartosci form
+$imie = '';
+$nazwisko = '';
+$etat = '-- wybierz --';
+$szef = '-- brak --';
+$data = '';
+$placa_Pod = '';
+$placa_Dod = '';
 
+// dla bledow
 $imieErr = "";
 $nazwiskoErr = "";
 $etatErr = "";
 $dataErr = "";
 $placa_PodErr = "";
+$placa_DodErr = "";
 
 
 if($_SERVER['REQUEST_METHOD'] == 'POST')
 {
-    $imie = trim($_POST['imie']);
-    $nazwisko = trim($_POST['nazwisko']); //zeby spacja nie przeszla przypadkiem jako poprawne imie/nazwisko
-    $etat = $_POST['etat'];
-    $szef = $_POST['szef'];
-    $data = $_POST['data'];
-    $placa_Pod = $_POST['placa_pod'];
-    $placa_Dod = $_POST['placa_dod'];
+    $imie = trim($_POST['imie'] ?? '');
+    $nazwisko = trim($_POST['nazwisko'] ?? ''); //zeby spacja nie przeszla przypadkiem jako poprawne imie/nazwisko
+    $etat = $_POST['etat'] ?? '-- wybierz --';
+    $szef = $_POST['szef'] ?? '-- brak --';
+    $data = $_POST['data'] ?? '';
+    $placa_Pod = $_POST['placa_pod'] ?? '';
+    $placa_Dod = $_POST['placa_dod'] ?? '';
 
     if ($imie == "")
     {
@@ -56,9 +66,48 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
     {
         $placa_PodErr = "Proszę podać płacę podstawową";
     }
-    if ($imie && $nazwisko && $etat !== "-- wybierz --" && !$dataErr && $data && $placa_Pod != '')
+
+    if ($placa_Dod > $placa_Pod)
     {
-        echo "gotowe do wyslania";
+        $placa_DodErr = "Płaca dodatkowa nie może być wieksza niż podstawowa";
+    }
+
+    if ($imieErr === '' && $nazwiskoErr === '' && $etatErr === '' &&  $dataErr === '' && $placa_PodErr === '' && $placa_DodErr === '')
+    {
+        if ($placa_Dod == '')
+        {
+            $placa_Dod = null;
+        }
+
+
+        if ($szef == '-- brak --')
+        {
+            $szef = null;
+        }
+        else
+        {
+            $pszef = explode(" ", $szef); // rozdzielanie imienia i nazwiska
+            $pimie = $pszef[0];  // imie
+            $pnazwisko = $pszef[1]; // nazwisko
+            $pomocnicza = $pdo -> prepare("SELECT ID_PRAC FROM pracownicy WHERE IMIE LIKE :pimie AND NAZWISKO LIKE :pnazwisko");
+            $pomocnicza -> bindValue(':pimie', $pimie, PDO::PARAM_STR);
+            $pomocnicza -> bindValue(':pnazwisko', $pnazwisko, PDO::PARAM_STR);
+            $pomocnicza -> execute();
+            $szef = $pomocnicza -> fetchColumn();
+        }
+
+
+
+        $stmt = $pdo->prepare("INSERT INTO pracownicy (IMIE, NAZWISKO, ETAT, ID_SZEFA, ZATRUDNIONY, PLACA_POD, PLACA_DOD)
+                                     VALUES (:imie, :nazwisko, :etat, :szef, :data, :placa_pod, :placa_dod)");
+        $stmt -> bindValue(':imie', $imie, PDO::PARAM_STR);
+        $stmt -> bindValue(':nazwisko', $nazwisko, PDO::PARAM_STR);
+        $stmt -> bindValue(':etat', $etat, PDO::PARAM_STR);
+        $stmt -> bindValue(':szef', $szef, PDO::PARAM_INT);
+        $stmt -> bindValue(':data', $data, PDO::PARAM_STR);
+        $stmt -> bindValue(':placa_pod', $placa_Pod, PDO::PARAM_STR);
+        $stmt -> bindValue(':placa_dod', $placa_Dod, PDO::PARAM_STR);
+        $stmt->execute();
     }
 
 }
@@ -91,8 +140,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
         </div>
     </div>
 </nav>
+<br>
+<h2 class="text-center">Dodaj pracownika</h2>
 
-<div class="container"><br><br>
+<div class="container">
     <form action="dodaj_prac.php" method="post" novalidate>
         <div class="mb-3">
             <label for="imie" class="form-label">Imię</label>
@@ -101,7 +152,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 echo "is-invalid";
             }
-            ?>" id="imie" name="imie">
+            ?>" id="imie" name="imie" value="<?php echo $imie ?>">
             <div id="nazwiskoHelp" class="form-text">
                 <?php
                 if ($imieErr != "")
@@ -118,7 +169,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 echo "is-invalid";
             }
-            ?>" id="nazwisko" name="nazwisko">
+            ?>" id="nazwisko" name="nazwisko" value="<?php echo $nazwisko ?>">
             <div id="nazwiskoHelp" class="form-text">
                 <?php
                 if ($nazwiskoErr != "")
@@ -136,11 +187,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             echo 'is-invalid';
         }
         ?>" id="etat" name="etat">
-            <option selected>-- wybierz --</option>
+            <option value="-- wybierz --" <?php
+            if ($etat == '-- wybierz --')
+            {
+                echo 'selected';
+            } ?>>-- wybierz --</option>
             <?php
             $stmt = $pdo->query("SELECT NAZWA FROM etaty");
-            foreach ($stmt as $row)
-                echo '<option>' . $row['NAZWA'] . '</option>'
+            foreach ($stmt as $row) {
+                $nazwa = $row['NAZWA'];
+                $sel = ($etat == $nazwa) ? 'selected' : '';
+                echo '<option value="' . $nazwa . '" ' . $sel . '>' . $nazwa . '</option>';
+            }
             ?>
         </select>
         <div id="etatHelp" class="form-text">
@@ -155,11 +213,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
         <div class="mb-3">
         <label for="szef" class="form-label">Szef</label>
         <select class="form-select" id="szef" name="szef">
-            <option selected>-- brak --</option>
+            <option value="-- brak --" <?php
+            if ($szef == '-- brak --')
+            {
+                echo 'selected';
+            }
+            ?>>-- brak --</option>
             <?php
             $stmt = $pdo->query("SELECT IMIE, NAZWISKO FROM pracownicy");
-            foreach ($stmt as $row)
-                echo '<option>' . $row['IMIE'] . " ". $row['NAZWISKO']. '</option>'
+            foreach ($stmt as $row) {
+                $full = $row['IMIE'] . ' ' . $row['NAZWISKO'];
+                $sel = ($szef == $full) ? 'selected' : '';
+                echo '<option value="' . $full . '" ' . $sel . '>' . $full . '</option>';
+            }
             ?>
         </select>
         </div>
@@ -170,7 +236,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 echo "is-invalid";
             }
-            ?>" id="data" name="data" type="date">
+            ?>" id="data" name="data" type="date" value="<?php echo $data ?>">
             <div id="dataHelp" class="form-text">
                 <?php
                 if ($dataErr != "")
@@ -187,7 +253,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 echo "is-invalid";
             }
-            ?>" id="placa_pod" name="placa_pod" type="number">
+            ?>" id="placa_pod" name="placa_pod" type="number" value="<?php echo $placa_Pod ?>">
             <div id="placa_podHelp" class="form-text">
                 <?php
                 if ($placa_PodErr != "")
@@ -199,8 +265,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
         </div>
         <div class="mb-3">
             <label for="placa_dod" class="form-label">Płaca dodatkowa</label>
-            <input  class="form-control" id="placa_dod" name="placa_dod" type="number">
-            <div id="placa_dodHelp" class="form-text"></div>
+            <input  class="form-control <?php
+            if ($placa_DodErr != '')
+            {
+                echo "is-invalid";
+            }
+            ?>" id="placa_dod" name="placa_dod" type="number" value="<?php echo $placa_Dod ?>">
+            <div id="placa_dodHelp" class="form-text">
+                <?php
+                if ($placa_DodErr != "")
+                {
+                    echo $placa_DodErr;
+                }
+                ?>
+            </div>
         </div>
 
 
