@@ -44,14 +44,17 @@ require_once 'database.php';
 
     <div class="container">
         <form action="" method="post">
-        <div class="row my-5">
-            <div class="col-md-4">
-                <input type="text" class="form-control" name="search" />
+            <div class="row my-5">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="search" />
+                </div>
+                <div class="col-md-6 text-left">
+                    <input type="submit" class="btn btn-primary" name="submit" value="Szukaj" />
+                </div>
+                <div class="col-md-2 text-end">
+                    <a class="btn btn-success" href="dodaj_etat.php" role="button">Dodaj Etat</a>
+                </div>
             </div>
-            <div class="col-md-8 text-left">
-                <input type="submit" class="btn btn-primary" name="submit" value="Szukaj" />
-            </div>
-        </div>
         </form>
         <div class="row">
             <div class="col-12">
