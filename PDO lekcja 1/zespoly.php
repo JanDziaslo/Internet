@@ -29,13 +29,13 @@ if(isset($_POST['submit']) && $_POST['search']!=''){
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="index.php">Pracownicy</a>
+                    <a class="nav-link " aria-current="page" href="index.php">Pracownicy</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="etaty.php">Etaty</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="zespoly.php">Zespoły</a>
+                    <a class="nav-link active" href="zespoly.php">Zespoły</a>
                 </li>
             </ul>
         </div>
@@ -48,8 +48,11 @@ if(isset($_POST['submit']) && $_POST['search']!=''){
             <div class="col-md-4">
                 <input type="text" class="form-control" name="search" />
             </div>
-            <div class="col-md-8 text-left">
+            <div class="col-md-6 text-left">
                 <input type="submit" class="btn btn-primary" name="submit" value="Szukaj" />
+            </div>
+            <div class="col-md-2 text-end">
+                <a class="btn btn-success" href="dodaj_zesp.php" role="button">Dodaj Zespół</a>
             </div>
         </div>
     </form>

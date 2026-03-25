@@ -29,10 +29,10 @@ require_once 'database.php';
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.php">Pracownicy</a>
+                        <a class="nav-link" aria-current="page" href="index.php">Pracownicy</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="etaty.php">Etaty</a>
+                        <a class="nav-link active" href="etaty.php">Etaty</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="zespoly.php">Zespoły</a>
