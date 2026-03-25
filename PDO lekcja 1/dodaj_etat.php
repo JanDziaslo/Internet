@@ -33,10 +33,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
     {
         $placa_OdErr = "Proszę podać płacę minimalną";
     }
+    elseif ($placa_Od < 0)
+    {
+        $placa_OdErr = "Płaca minimalna nie może być ujemna";
+    }
 
     if ($placa_Do == "")
     {
         $placa_DoErr = "Proszę podać płacę maksymalną";
+    }
+    elseif ($placa_Do < 0)
+    {
+        $placa_DoErr = "Płaca maksymalna nie może być ujemna";
     }
 
     if ($placa_Do != "" && $placa_Od != "" && $placa_Od > $placa_Do)
@@ -135,7 +143,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 echo "is-invalid";
             }
-            ?>" id="placa_od" name="placa_od" type="number" step="0.01" min="0" value="<?php echo $placa_Od ?>">
+            ?>" id="placa_od" name="placa_od" type="number" step="0.1" value="<?php echo $placa_Od ?>">
             <div id="placa_odHelp" class="form-text">
                 <?php
                 if ($placa_OdErr != "")
@@ -152,7 +160,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 echo "is-invalid";
             }
-            ?>" id="placa_do" name="placa_do" type="number" step="0.01" min="0" value="<?php echo $placa_Do ?>">
+            ?>" id="placa_do" name="placa_do" type="number" step="0.1" value="<?php echo $placa_Do ?>">
             <div id="placa_doHelp" class="form-text">
                 <?php
                 if ($placa_DoErr != "")

@@ -59,7 +59,7 @@ if(isset($_POST['submit']) && $_POST['search']!=''){
             <div class="col-md-6 text-left">
                 <input type="submit" class="btn btn-primary" name="submit" value="Szukaj" />
             </div>
-            <div class="col-md-2 text-right">
+            <div class="col-md-2 text-end">
             <a class="btn btn-success" href="dodaj_prac.php" role="button">Dodaj Pracownika</a>
             </div>
         </div>

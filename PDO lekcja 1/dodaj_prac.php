@@ -85,10 +85,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
     {
         $placa_PodErr = "Proszę podać płacę podstawową";
     }
+    elseif ($placa_Pod < 0)
+    {
+        $placa_PodErr = "Płaca podstawowa nie może być ujemna";
+    }
 
     if ($placa_Dod > $placa_Pod)
     {
         $placa_DodErr = "Płaca dodatkowa nie może być wieksza niż podstawowa";
+    }
+    elseif ($placa_Dod != '' && $placa_Dod < 0)
+    {
+        $placa_DodErr = "Płaca dodatkowa nie może być ujemna";
     }
 
     if ($imieErr === '' && $nazwiskoErr === '' && $etatErr === '' && $zespolErr === '' && $dataErr === '' && $placa_PodErr === '' && $placa_DodErr === '')
@@ -336,7 +344,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 echo "is-invalid";
             }
-            ?>" id="placa_pod" name="placa_pod" type="number" value="<?php echo $placa_Pod ?>">
+            ?>" id="placa_pod" name="placa_pod" type="number" step="0.1" value="<?php echo $placa_Pod ?>">
             <div id="placa_podHelp" class="form-text">
                 <?php
                 if ($placa_PodErr != "")
@@ -353,7 +361,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 echo "is-invalid";
             }
-            ?>" id="placa_dod" name="placa_dod" type="number" value="<?php echo $placa_Dod ?>">
+            ?>" id="placa_dod" name="placa_dod" type="number" step="0.1" value="<?php echo $placa_Dod ?>">
             <div id="placa_dodHelp" class="form-text">
                 <?php
                 if ($placa_DodErr != "")
