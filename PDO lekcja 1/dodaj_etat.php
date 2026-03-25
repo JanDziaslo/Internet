@@ -15,13 +15,18 @@ $placa_DoErr = "";
 
 if($_SERVER['REQUEST_METHOD'] == 'POST')
 {
-    $nazwa = trim($_POST['nazwa'] ?? '');
+    $nazwa = $_POST['nazwa'] ?? '';
+    $nazwaZn = mb_strlen($nazwa, "UTF-8");
     $placa_Od = $_POST['placa_od'] ?? '';
     $placa_Do = $_POST['placa_do'] ?? '';
 
     if ($nazwa == "")
     {
         $nazwaErr = "Proszę podać nazwę etatu";
+    }
+    elseif ($nazwaZn > 15)
+    {
+        $nazwaErr = "Nazwa etatu nie może być dłuższa niż 15 znaków";
     }
 
     if ($placa_Od == "")

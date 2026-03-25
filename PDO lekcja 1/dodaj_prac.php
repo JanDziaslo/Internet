@@ -25,7 +25,9 @@ $placa_DodErr = "";
 if($_SERVER['REQUEST_METHOD'] == 'POST')
 {
     $imie = trim($_POST['imie'] ?? '');
+    $imieZn = mb_strlen($imie, "UTF-8");
     $nazwisko = trim($_POST['nazwisko'] ?? ''); //zeby spacja nie przeszla przypadkiem jako poprawne imie/nazwisko
+    $nazwiskoZn = mb_strlen($nazwisko, "UTF-8");
     $etat = $_POST['etat'] ?? '-- wybierz --';
     $szef = $_POST['szef'] ?? '-- brak --';
     $zespol = $_POST['zespol'] ?? '-- wybierz --';
@@ -37,10 +39,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
     {
         $imieErr = "Proszę podać imię";
     }
+    elseif ($imieZn > 20)
+    {
+        $imieErr = "Imię nie może być dłuższe niż 20 znaków";
+    }
 
     if ($nazwisko == "")
     {
         $nazwiskoErr = "Proszę podać nazwisko";
+    }
+    elseif ($nazwiskoZn > 15)
+    {
+        $nazwiskoErr = "Nazwisko nie może być dłuższe niż 15 znaków";
     }
 
     if ($etat == "-- wybierz --")
