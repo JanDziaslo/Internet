@@ -2,10 +2,12 @@
 require_once 'database.php';
 
 // dla zapisywania zawartosci form
+$sukces = false;
 $imie = '';
 $nazwisko = '';
 $etat = '-- wybierz --';
 $szef = '-- brak --';
+$zespol = '-- wybierz --';
 $data = '';
 $placa_Pod = '';
 $placa_Dod = '';
@@ -14,6 +16,7 @@ $placa_Dod = '';
 $imieErr = "";
 $nazwiskoErr = "";
 $etatErr = "";
+$zespolErr = "";
 $dataErr = "";
 $placa_PodErr = "";
 $placa_DodErr = "";
@@ -25,6 +28,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
     $nazwisko = trim($_POST['nazwisko'] ?? ''); //zeby spacja nie przeszla przypadkiem jako poprawne imie/nazwisko
     $etat = $_POST['etat'] ?? '-- wybierz --';
     $szef = $_POST['szef'] ?? '-- brak --';
+    $zespol = $_POST['zespol'] ?? '-- wybierz --';
     $data = $_POST['data'] ?? '';
     $placa_Pod = $_POST['placa_pod'] ?? '';
     $placa_Dod = $_POST['placa_dod'] ?? '';
@@ -42,6 +46,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
     if ($etat == "-- wybierz --")
     {
         $etatErr = "Proszę wybrać etat";
+    }
+
+    if ($zespol == "-- wybierz --")
+    {
+        $zespolErr = "Proszę wybrać zespół";
     }
 
     if ($data == "")
@@ -72,17 +81,22 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
         $placa_DodErr = "Płaca dodatkowa nie może być wieksza niż podstawowa";
     }
 
-    if ($imieErr === '' && $nazwiskoErr === '' && $etatErr === '' &&  $dataErr === '' && $placa_PodErr === '' && $placa_DodErr === '')
+    if ($imieErr === '' && $nazwiskoErr === '' && $etatErr === '' && $zespolErr === '' && $dataErr === '' && $placa_PodErr === '' && $placa_DodErr === '')
     {
         if ($placa_Dod == '')
         {
             $placa_Dod = null;
         }
 
+        $stmtZespol = $pdo->prepare("SELECT ID_ZESP FROM zespoly WHERE NAZWA = :zespol");
+        $stmtZespol->bindValue(':zespol', $zespol, PDO::PARAM_STR);
+        $stmtZespol->execute();
+        $idZespolu = $stmtZespol->fetchColumn();
+
 
         if ($szef == '-- brak --')
         {
-            $szef = null;
+            $ppszef = null;
         }
         else
         {
@@ -93,21 +107,31 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             $pomocnicza -> bindValue(':pimie', $pimie, PDO::PARAM_STR);
             $pomocnicza -> bindValue(':pnazwisko', $pnazwisko, PDO::PARAM_STR);
             $pomocnicza -> execute();
-            $szef = $pomocnicza -> fetchColumn();
+            $ppszef = $pomocnicza -> fetchColumn();
         }
 
 
 
-        $stmt = $pdo->prepare("INSERT INTO pracownicy (IMIE, NAZWISKO, ETAT, ID_SZEFA, ZATRUDNIONY, PLACA_POD, PLACA_DOD)
-                                     VALUES (:imie, :nazwisko, :etat, :szef, :data, :placa_pod, :placa_dod)");
+        $stmt = $pdo->prepare("INSERT INTO pracownicy (IMIE, NAZWISKO, ETAT, ID_SZEFA, ID_ZESP, ZATRUDNIONY, PLACA_POD, PLACA_DOD)
+                                     VALUES (:imie, :nazwisko, :etat, :szef, :id_zesp, :data, :placa_pod, :placa_dod)");
         $stmt -> bindValue(':imie', $imie, PDO::PARAM_STR);
         $stmt -> bindValue(':nazwisko', $nazwisko, PDO::PARAM_STR);
         $stmt -> bindValue(':etat', $etat, PDO::PARAM_STR);
-        $stmt -> bindValue(':szef', $szef, PDO::PARAM_INT);
+        $stmt -> bindValue(':szef', $ppszef, PDO::PARAM_INT);
+        $stmt -> bindValue(':id_zesp', $idZespolu, PDO::PARAM_INT);
         $stmt -> bindValue(':data', $data, PDO::PARAM_STR);
         $stmt -> bindValue(':placa_pod', $placa_Pod, PDO::PARAM_STR);
         $stmt -> bindValue(':placa_dod', $placa_Dod, PDO::PARAM_STR);
         $stmt->execute();
+        $sukces = true;
+        $imie = '';
+        $nazwisko = '';
+        $etat = '-- wybierz --';
+        $szef = '-- brak --';
+        $zespol = '-- wybierz --';
+        $data = '';
+        $placa_Pod = '';
+        $placa_Dod = '';
     }
 
 }
@@ -122,6 +146,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
     <title>Dodaj Pracownika</title>
 </head>
 <body>
+<svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+    <symbol id="check-circle-fill" viewBox="0 0 16 16">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+    </symbol>
+</svg>
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
@@ -143,8 +172,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 <br>
 <h2 class="text-center">Dodaj pracownika</h2>
 
+
 <div class="container">
     <form action="dodaj_prac.php" method="post" novalidate>
+        <?php
+        if ($sukces)
+        {
+            echo '<br><div class="alert alert-success d-flex align-items-center" role="alert">
+                  <svg class="bi flex-shrink-0 me-2" width="16" height="16" fill="currentColor" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+                  <div>
+                  Pracownik został dodany pomyślnie!
+                  </div>
+                  </div>';
+        }
+        ?>
         <div class="mb-3">
             <label for="imie" class="form-label">Imię</label>
             <input  class="form-control
@@ -230,6 +271,38 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
         </select>
         </div>
         <div class="mb-3">
+            <label for="zespol" class="form-label">Zespół</label>
+            <select class="form-select <?php
+            if ($zespolErr != '')
+            {
+                echo 'is-invalid';
+            }
+            ?>" id="zespol" name="zespol">
+                <option value="-- wybierz --" <?php
+                if ($zespol == '-- wybierz --')
+                {
+                    echo 'selected';
+                } ?>>-- wybierz --</option>
+                <?php
+                $stmt = $pdo->query("SELECT NAZWA FROM zespoly");
+                foreach ($stmt as $row) {
+                    $nazwa = $row['NAZWA'];
+                    $sel = ($zespol == $nazwa) ? 'selected' : '';
+                    echo '<option value="' . $nazwa . '" ' . $sel . '>' . $nazwa . '</option>';
+                }
+                ?>
+            </select>
+            <div id="zespolHelp" class="form-text">
+                <?php
+                if ($zespolErr != '')
+                {
+                    echo $zespolErr;
+                }
+                ?>
+            </div>
+        </div>
+
+        <div class="mb-3">
             <label for="data" class="form-label">Data zatrudnienia</label>
             <input  class="form-control <?php
             if ($dataErr != '')
@@ -281,8 +354,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             </div>
         </div>
 
+        <div class="d-flex align-items-center">
+            <button type="submit" class="btn btn-primary">Dodaj pracownika</button>
+            <a href="index.php" class="btn btn-danger ms-auto">Wróć</a>
+        </div>
 
-        <button type="submit" class="btn btn-primary">Dodaj pracownika</button>
     </form>
 
 </div>
