@@ -138,8 +138,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
         $stmt -> bindValue(':szef', $ppszef, PDO::PARAM_INT);
         $stmt -> bindValue(':id_zesp', $idZespolu, PDO::PARAM_INT);
         $stmt -> bindValue(':data', $data, PDO::PARAM_STR);
-        $stmt -> bindValue(':placa_pod', $placa_Pod, PDO::PARAM_STR);
-        $stmt -> bindValue(':placa_dod', $placa_Dod, PDO::PARAM_STR);
+        $stmt -> bindValue(':placa_pod', $placa_Pod, PDO::PARAM_INT);
+        if ($placa_Dod === 0)
+        {
+            $stmt -> bindValue(':placa_dod', null, PDO::PARAM_NULL);
+        }
+        else {
+            $stmt->bindValue(':placa_dod', $placa_Dod, PDO::PARAM_INT);
+        }
         $stmt->execute();
         $sukces = true;
         $imie = '';
