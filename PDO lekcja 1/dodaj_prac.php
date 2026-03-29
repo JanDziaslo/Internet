@@ -70,7 +70,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
     else
     {
         $dataObj = DateTime::createFromFormat('Y-m-d', $data);
-        $minData = new DateTime('2000-01-01');
+        $minData = new DateTime('1900-01-01');
         $maxData = new DateTime('+1 year');
 
         if (!$dataObj || $dataObj->format('Y-m-d') !== $data)
