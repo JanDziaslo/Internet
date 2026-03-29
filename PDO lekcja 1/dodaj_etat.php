@@ -1,6 +1,11 @@
 <?php
 require_once 'database.php';
 
+//niech juz bedzie
+function h($text) {
+    return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+}
+
 // dla zapisywania zawartosci form
 $sukces = false;
 $nazwa = '';
@@ -126,7 +131,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 echo "is-invalid";
             }
-            ?>" id="nazwa" name="nazwa" value="<?php echo $nazwa ?>">
+            ?>" id="nazwa" name="nazwa" value="<?php echo h($nazwa); ?>">
             <div id="nazwaHelp" class="form-text">
                 <?php
                 if ($nazwaErr != "")
@@ -143,7 +148,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 echo "is-invalid";
             }
-            ?>" id="placa_od" name="placa_od" type="number" step="0.1" value="<?php echo $placa_Od ?>">
+            ?>" id="placa_od" name="placa_od" type="number" step="0.1" value="<?php echo h($placa_Od); ?>">
             <div id="placa_odHelp" class="form-text">
                 <?php
                 if ($placa_OdErr != "")
@@ -160,7 +165,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 echo "is-invalid";
             }
-            ?>" id="placa_do" name="placa_do" type="number" step="0.1" value="<?php echo $placa_Do ?>">
+            ?>" id="placa_do" name="placa_do" type="number" step="0.1" value="<?php echo h($placa_Do); ?>">
             <div id="placa_doHelp" class="form-text">
                 <?php
                 if ($placa_DoErr != "")

@@ -1,6 +1,11 @@
 <?php
 require_once 'database.php';
 
+//niech juz bedzie
+function h($text) {
+    return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+}
+
 // dla zapisywania zawartosci form
 $sukces = false;
 $imie = '';
@@ -217,7 +222,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 echo "is-invalid";
             }
-            ?>" id="imie" name="imie" value="<?php echo $imie ?>">
+            ?>" id="imie" name="imie" value="<?php echo h($imie); ?>">
             <div id="nazwiskoHelp" class="form-text">
                 <?php
                 if ($imieErr != "")
@@ -234,7 +239,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 echo "is-invalid";
             }
-            ?>" id="nazwisko" name="nazwisko" value="<?php echo $nazwisko ?>">
+            ?>" id="nazwisko" name="nazwisko" value="<?php echo h($nazwisko); ?>">
             <div id="nazwiskoHelp" class="form-text">
                 <?php
                 if ($nazwiskoErr != "")
@@ -262,7 +267,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             foreach ($stmt as $row) {
                 $nazwa = $row['NAZWA'];
                 $sel = ($etat == $nazwa) ? 'selected' : '';
-                echo '<option value="' . $nazwa . '" ' . $sel . '>' . $nazwa . '</option>';
+                echo '<option value="' . h($nazwa) . '" ' . $sel . '>' . h($nazwa) . '</option>';
             }
             ?>
         </select>
@@ -289,7 +294,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             foreach ($stmt as $row) {
                 $full = $row['IMIE'] . ' ' . $row['NAZWISKO'];
                 $sel = ($szef == $full) ? 'selected' : '';
-                echo '<option value="' . $full . '" ' . $sel . '>' . $full . '</option>';
+                echo '<option value="' . h($full) . '" ' . $sel . '>' . h($full) . '</option>';
             }
             ?>
         </select>
@@ -312,7 +317,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                 foreach ($stmt as $row) {
                     $nazwa = $row['NAZWA'];
                     $sel = ($zespol == $nazwa) ? 'selected' : '';
-                    echo '<option value="' . $nazwa . '" ' . $sel . '>' . $nazwa . '</option>';
+                    echo '<option value="' . h($nazwa) . '" ' . $sel . '>' . h($nazwa) . '</option>';
                 }
                 ?>
             </select>
@@ -333,7 +338,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 echo "is-invalid";
             }
-            ?>" id="data" name="data" type="date" value="<?php echo $data ?>">
+            ?>" id="data" name="data" type="date" value="<?php echo h($data); ?>">>
             <div id="dataHelp" class="form-text">
                 <?php
                 if ($dataErr != "")
@@ -350,7 +355,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 echo "is-invalid";
             }
-            ?>" id="placa_pod" name="placa_pod" type="number" step="0.1" value="<?php echo $placa_Pod ?>">
+            ?>" id="placa_pod" name="placa_pod" type="number" step="0.1" value="<?php echo h($placa_Pod); ?>">>
             <div id="placa_podHelp" class="form-text">
                 <?php
                 if ($placa_PodErr != "")
@@ -367,7 +372,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 echo "is-invalid";
             }
-            ?>" id="placa_dod" name="placa_dod" type="number" step="0.1" value="<?php echo $placa_Dod ?>">
+            ?>" id="placa_dod" name="placa_dod" type="number" step="0.1" value="<?php echo h($placa_Dod); ?>">>
             <div id="placa_dodHelp" class="form-text">
                 <?php
                 if ($placa_DodErr != "")
