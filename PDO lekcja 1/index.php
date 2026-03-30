@@ -1,5 +1,59 @@
 <?php
 require_once 'database.php';
+
+if (isset($_GET['action'], $_GET['idp']) && $_GET['action'] === 'delete') {
+    $idp = (int)$_GET['idp'];
+
+    $stmt = $pdo ->prepare("SELECT ID_PRAC FROM pracownicy WHERE ID_PRAC = :idp");
+    $stmt -> bindValue(':idp', $idp, PDO::PARAM_INT);
+    $stmt -> execute();
+    $pracownik = $stmt -> fetch(PDO::FETCH_ASSOC);
+
+    if ($idp === 0 )
+    {
+        echo '<script> alert("Pracownik o podanym id nie istnieje"); history.back();</script>';
+    }
+    elseif ($pracownik === false)
+    {
+        echo '<script> alert("Pracownik o podanym id nie istnieje"); history.back() </script>';
+
+    }
+    else
+    {
+        echo '<script>
+            if (confirm("Czy na pewno chcesz usunąć tego pracownika?")) {
+                window.location.href = "?action=con&idp=' . $idp . '";}
+            else {
+                history.back();
+            }
+            </script>';
+    }
+}
+if (isset($_GET['action'], $_GET['idp']) && $_GET['action'] === 'con') {
+    $idp = (int)$_GET['idp'];
+
+    $stmt = $pdo ->prepare("SELECT ID_PRAC FROM pracownicy WHERE ID_PRAC = :idp");
+    $stmt -> bindValue(':idp', $idp, PDO::PARAM_INT);
+    $stmt -> execute();
+    $pracownik = $stmt -> fetch(PDO::FETCH_ASSOC);
+
+    if ($idp === 0 )
+    {
+        echo '<script> alert("Pracownik o podanym id nie istnieje"); history.back(); </script>';
+    }
+    elseif ($pracownik === false)
+    {
+        echo '<script> alert("Pracownik o podanym id nie istnieje"); history.back() </script>';
+
+    }
+    else
+    {
+        $stmt = $pdo->prepare('DELETE FROM pracownicy WHERE ID_PRAC = :idp');
+        $stmt->bindValue(':idp', $idp, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+}
+
 ?>
 <!doctype html>
 <html lang="pl" data-bs-theme="dark">
@@ -24,7 +78,26 @@ require_once 'database.php';
     <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
 </svg>
 
+<!-- blad -->
+<svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+    <symbol id="exclamation-triangle-fill" viewBox="0 0 16 16">
+        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+    </symbol>
+</svg>
+
 <?php
+
+if ($bazaErr)
+        {
+            echo '<div class="alert alert-danger d-flex align-items-center" role="alert">
+                  <svg class="bi flex-shrink-0 me-2" width="16" height="16" fill="currentColor" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                  <div class="text-center">
+                    <div class="text-center">Połączenie z bazą danych nie zostało nawiązane: <br>';
+            echo h($e). '  
+                  </div>
+                  </div>';
+            exit();
+        }
 
 if(isset($_POST['submit']) && $_POST['search']!=''){
     $stmt = $pdo->prepare("SELECT p.*, z.NAZWA AS NAZWA_ZESPOLU, sz.IMIE AS IMIE_SZEFA, sz.NAZWISKO AS NAZWISKO_SZEFA
@@ -107,7 +180,7 @@ if(isset($_POST['submit']) && $_POST['search']!=''){
                     echo '<td>'.$row['PLACA_DOD'].'</td>';
                     echo '<td>'.$row['NAZWA_ZESPOLU'].'</td>';
                     echo '<td><a href="edytuj_prac.php?id='.$row['ID_PRAC'].'"><button type="button" class="btn btn-outline-secondary me-2"><svg width="16" height="16" fill="white"><use xlink:href="#pencil"></use></svg></button></a>';
-                    echo '<a href="usun_prac.php?id='.$row['ID_PRAC'].'"><button type="button" class="btn btn-outline-secondary me-2"><svg width="16" height="16" fill="red"><use xlink:href="#smietnik"></use></svg></button></a>';
+                    echo '<a href="index.php?action=delete&idp='.$row['ID_PRAC'].'"><button type="button" class="btn btn-outline-secondary me-2"><svg width="16" height="16" fill="red"><use xlink:href="#smietnik"></use></svg></button></a>';
                     echo '</tr>';
                 }
                 ?>
