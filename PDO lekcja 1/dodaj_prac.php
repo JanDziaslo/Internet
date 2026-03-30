@@ -338,7 +338,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 echo "is-invalid";
             }
-            ?>" id="data" name="data" type="date" value="<?php echo h($data); ?>">>
+            ?>" id="data" name="data" type="date" value="<?php echo h($data); ?>">
             <div id="dataHelp" class="form-text">
                 <?php
                 if ($dataErr != "")
@@ -355,7 +355,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 echo "is-invalid";
             }
-            ?>" id="placa_pod" name="placa_pod" type="number" step="0.1" value="<?php echo h($placa_Pod); ?>">>
+            ?>" id="placa_pod" name="placa_pod" type="number" step="0.1" value="<?php echo h($placa_Pod); ?>">
             <div id="placa_podHelp" class="form-text">
                 <?php
                 if ($placa_PodErr != "")
@@ -372,7 +372,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
             {
                 echo "is-invalid";
             }
-            ?>" id="placa_dod" name="placa_dod" type="number" step="0.1" value="<?php echo h($placa_Dod); ?>">>
+            ?>" id="placa_dod" name="placa_dod" type="number" step="0.1" value="<?php echo h($placa_Dod); ?>">
             <div id="placa_dodHelp" class="form-text">
                 <?php
                 if ($placa_DodErr != "")
