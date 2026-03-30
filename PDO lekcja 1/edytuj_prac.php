@@ -193,6 +193,17 @@ else {
                   </div>
                   </div>';
         }
+        elseif ($bazaErr)
+        {
+            echo '<div class="alert alert-danger d-flex align-items-center" role="alert">
+                  <svg class="bi flex-shrink-0 me-2" width="16" height="16" fill="currentColor" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                  <div class="text-center">
+                    <div class="text-center">Połączenie z bazą danych nie zostało nawiązane: <br>';
+            echo h($e). '  
+                  </div>
+                  </div>';
+            exit();
+        }
         ?>
         <div class="mb-3">
             <label for="imie" class="form-label">Imię</label>
