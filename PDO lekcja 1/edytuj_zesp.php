@@ -12,7 +12,7 @@ $nazwaErr = "";
 $adresErr = "";
 $sukces = false;
 
-$id_url = (int) $_GET['id'];
+$id_url = (int) ($_GET['id'] ?? 0);
 
 $stmt = $pdo -> prepare("SELECT NAZWA, ADRES FROM zespoly WHERE ID_ZESP = :id");
 $stmt -> bindValue(':id', $id_url, PDO::PARAM_INT);
@@ -105,14 +105,14 @@ else {
 
 
 <div class="container">
-    <form action="edytuj_zesp.php" method="post" novalidate>
+    <form action="edytuj_zesp.php?id=<?php echo $id_url;?>" method="post" novalidate>
         <?php
         if ($sukces)
         {
             echo '<br><div class="alert alert-success d-flex align-items-center" role="alert">
                   <svg class="bi flex-shrink-0 me-2" width="16" height="16" fill="currentColor" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
                   <div>
-                  Zespół został dodany pomyślnie!
+                  Zespół został edytowany pomyślnie!
                   </div>
                   </div>';
         }
@@ -122,7 +122,7 @@ else {
                   <svg class="bi flex-shrink-0 me-2" width="16" height="16" fill="currentColor" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
                   <div class="text-center">
                     <div class="text-center">Połączenie z bazą danych nie zostało nawiązane: <br>';
-            echo h($e). '  
+            echo  '  
                   </div>
                   </div>';
             exit();
@@ -162,7 +162,7 @@ else {
             {
                 echo "is-invalid";
             }
-            ?>" id="adres" name="adres" type="text" step="0.01" min="0" value="<?php echo h($adres); ?>">
+            ?>" id="adres" name="adres" type="text" value="<?php echo h($adres); ?>">
             <div id="placa_odHelp" class="form-text">
                 <?php
                 if ($adresErr != "")
