@@ -182,7 +182,7 @@ else {
                     Pracownik o podanym ID nie istnieje!
                     </div>
                     </div>';
-            exit;
+            exit();
         }
         elseif ($git)
         {
