@@ -1,5 +1,64 @@
 <?php
 require_once 'database.php';
+
+if (isset($_GET['action'], $_GET['idp']) && $_GET['action'] === 'delete') {
+    $idp = (int)$_GET['idp'];
+
+    $stmt = $pdo ->prepare("SELECT ID_ZESP FROM zespoly WHERE ID_ZESP = :idp");
+    $stmt -> bindValue(':idp', $idp, PDO::PARAM_INT);
+    $stmt -> execute();
+    $zespol = $stmt -> fetch(PDO::FETCH_ASSOC);
+
+    if ($idp === 0 )
+    {
+        echo '<script> alert("Zespół o podanym id nie istnieje"); history.back();</script>';
+        exit();
+    }
+    elseif ($zespol === false)
+    {
+        echo '<script> alert("Zespół o podanym id nie istnieje"); history.back() </script>';
+        exit();
+
+    }
+    else
+    {
+        echo '<script>
+            if (confirm("Czy na pewno chcesz usunąć ten zespół?")) {
+                window.location.href = "?action=con&idp=' . $idp . '";}
+            else {
+                history.back();
+            }
+            </script>';
+    }
+}
+if (isset($_GET['action'], $_GET['idp']) && $_GET['action'] === 'con') {
+    $idp = (int)$_GET['idp'];
+
+    $stmt = $pdo ->prepare("SELECT ID_zESP FROM zespoly WHERE ID_ZESP = :idp");
+    $stmt -> bindValue(':idp', $idp, PDO::PARAM_INT);
+    $stmt -> execute();
+    $zespol = $stmt -> fetch(PDO::FETCH_ASSOC);
+
+    if ($idp === 0 )
+    {
+        echo '<script> alert("Zespół o podanym id nie istnieje"); history.back(); </script>';
+        exit();
+    }
+    elseif ($zespol === false)
+    {
+        echo '<script> alert("Zespół o podanym id nie istnieje"); history.back(); </script>';
+        exit();
+    }
+    else
+    {
+        $stmt = $pdo->prepare('DELETE FROM zespoly WHERE ID_ZESP = :idp');
+        $stmt->bindValue(':idp', $idp, PDO::PARAM_INT);
+        $stmt->execute();
+        header('Location: zespoly.php');
+        exit();
+    }
+}
+
 ?>
 <!doctype html>
 <html lang="pl" data-bs-theme="dark">
