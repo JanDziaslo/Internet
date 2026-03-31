@@ -12,11 +12,12 @@ if (isset($_GET['action'], $_GET['idp']) && $_GET['action'] === 'delete') {
     if ($idp === 0 )
     {
         echo '<script> alert("Pracownik o podanym id nie istnieje"); history.back();</script>';
+        exit();
     }
     elseif ($pracownik === false)
     {
         echo '<script> alert("Pracownik o podanym id nie istnieje"); history.back() </script>';
-
+        exit();
     }
     else
     {
@@ -40,17 +41,20 @@ if (isset($_GET['action'], $_GET['idp']) && $_GET['action'] === 'con') {
     if ($idp === 0 )
     {
         echo '<script> alert("Pracownik o podanym id nie istnieje"); history.back(); </script>';
+        exit();
     }
     elseif ($pracownik === false)
     {
         echo '<script> alert("Pracownik o podanym id nie istnieje"); history.back() </script>';
-
+        exit();
     }
     else
     {
         $stmt = $pdo->prepare('DELETE FROM pracownicy WHERE ID_PRAC = :idp');
         $stmt->bindValue(':idp', $idp, PDO::PARAM_INT);
         $stmt->execute();
+        header('Location: zespoly.php');
+        exit();
     }
 }
 
