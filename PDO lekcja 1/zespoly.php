@@ -36,7 +36,7 @@ if ($bazaErr)
                   <svg class="bi flex-shrink-0 me-2" width="16" height="16" fill="currentColor" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
                   <div class="text-center">
                     <div class="text-center">Połączenie z bazą danych nie zostało nawiązane: <br>';
-            echo h($e). '  
+            echo  '  
                   </div>
                   </div>';
             exit();
