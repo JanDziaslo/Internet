@@ -104,7 +104,7 @@ require_once 'database.php';
                         echo '<td>'.$row['NAZWA'].'</td>';
                         echo '<td>'.$row['PLACA_OD'].'</td>';
                         echo '<td>'.$row['PLACA_DO'].'</td>';
-                        echo '<td><a href="edytuj_etat.php?id='.$row['NAZWA'].'"><button type="button" class="btn btn-outline-secondary me-2"><svg width="16" height="16" fill="white"><use xlink:href="#pencil"></use></svg></button></a>';
+                        echo '<td><a href="edytuj_etat.php?nazwa='.$row['NAZWA'].'"><button type="button" class="btn btn-outline-secondary me-2"><svg width="16" height="16" fill="white"><use xlink:href="#pencil"></use></svg></button></a>';
                         echo '<a href="etaty.php?action=delete&idp='.$row['NAZWA'].'"><button type="button" class="btn btn-outline-secondary me-2"><svg width="16" height="16" fill="red"><use xlink:href="#smietnik"></use></svg></button></a>';
                         echo '</tr>';
                     }
