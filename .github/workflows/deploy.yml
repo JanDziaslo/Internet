@@ -19,6 +19,7 @@ jobs:
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           tags: tag:ci
           hostname: github-actions-runner
+          version: latest
 
       - name: Get server Tailscale IP
         id: ts-ip
