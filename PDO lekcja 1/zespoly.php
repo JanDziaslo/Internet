@@ -105,7 +105,10 @@ if(isset($_POST['submit']) && $_POST['search']!=''){
     $stmt = $pdo->prepare("SELECT * FROM zespoly WHERE NAZWA LIKE :nazwa");
     $stmt -> bindValue(':nazwa', '%'.$_POST['search'].'%', PDO::PARAM_STR);
     $stmt->execute();
-}else{
+}elseif (isset($_POST['reset'])){
+    $stmt = $pdo->query('SELECT * FROM zespoly');
+}
+else{
     $stmt = $pdo->query('SELECT * FROM zespoly');
 }
 
@@ -135,10 +138,13 @@ if(isset($_POST['submit']) && $_POST['search']!=''){
             <div class="col-md-4">
                 <input type="text" class="form-control" name="search" />
             </div>
-            <div class="col-md-6 text-left">
+            <div class="col-md-1 text-left">
                 <input type="submit" class="btn btn-primary" name="submit" value="Szukaj" />
             </div>
-            <div class="col-md-2 text-end">
+            <div class="col-md-3 ">
+                <input type="submit" class="btn btn-danger" name="reset" value="Resetuj">
+            </div>
+            <div class="col-md-4 text-end">
                 <a class="btn btn-success" href="dodaj_zesp.php" role="button">Dodaj Zespół</a>
             </div>
         </div>

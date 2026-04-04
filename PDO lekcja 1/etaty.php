@@ -96,7 +96,10 @@ if (isset($_GET['action'], $_GET['idp']) && $_GET['action'] === 'con') {
         $stmt = $pdo->prepare("SELECT * FROM etaty WHERE NAZWA LIKE :nazwa");
         $stmt -> bindValue(':nazwa', '%'.$_POST['search'].'%', PDO::PARAM_STR);
         $stmt->execute();
-    }else{
+    }elseif (isset($_POST['reset'])){
+        $stmt = $pdo->query('SELECT * FROM etaty');
+    }
+    else{
         $stmt = $pdo->query('SELECT * FROM etaty');
     }
 
@@ -126,10 +129,13 @@ if (isset($_GET['action'], $_GET['idp']) && $_GET['action'] === 'con') {
                 <div class="col-md-4">
                     <input type="text" class="form-control" name="search" />
                 </div>
-                <div class="col-md-6 text-left">
+                <div class="col-md-1 text-left">
                     <input type="submit" class="btn btn-primary" name="submit" value="Szukaj" />
                 </div>
-                <div class="col-md-2 text-end">
+                <div class="col-md-3 ">
+                    <input type="submit" class="btn btn-danger" name="reset" value="Resetuj">
+                </div>
+                <div class="col-md-4 text-end">
                     <a class="btn btn-success" href="dodaj_etat.php" role="button">Dodaj Etat</a>
                 </div>
             </div>

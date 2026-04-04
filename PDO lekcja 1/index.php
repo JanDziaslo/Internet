@@ -111,7 +111,13 @@ if(isset($_POST['submit']) && $_POST['search']!=''){
                            WHERE p.IMIE LIKE :szukaj OR p.NAZWISKO LIKE :szukaj OR sz.IMIE LIKE :szukaj OR sz.NAZWISKO LIKE :szukaj");
     $stmt -> bindValue(':szukaj', '%'.$_POST['search'].'%', PDO::PARAM_STR);
     $stmt->execute();
-}else{
+}elseif (isset($_POST['reset'])) {
+    $stmt = $pdo->query('SELECT p.*, z.NAZWA AS NAZWA_ZESPOLU, sz.IMIE AS IMIE_SZEFA, sz.NAZWISKO AS NAZWISKO_SZEFA
+                         FROM pracownicy p
+                         LEFT JOIN zespoly z ON p.ID_ZESP = z.ID_ZESP
+                         LEFT JOIN pracownicy sz ON p.ID_SZEFA = sz.ID_PRAC');
+}
+else{
     $stmt = $pdo->query('SELECT p.*, z.NAZWA AS NAZWA_ZESPOLU, sz.IMIE AS IMIE_SZEFA, sz.NAZWISKO AS NAZWISKO_SZEFA
                          FROM pracownicy p
                          LEFT JOIN zespoly z ON p.ID_ZESP = z.ID_ZESP
@@ -144,10 +150,13 @@ if(isset($_POST['submit']) && $_POST['search']!=''){
             <div class="col-md-4">
                 <input type="text" class="form-control" name="search" />
             </div>
-            <div class="col-md-6 text-left">
+            <div class="col-md-1 text-left">
                 <input type="submit" class="btn btn-primary" name="submit" value="Szukaj" />
             </div>
-            <div class="col-md-2 text-end">
+            <div class="col-md-3 ">
+                <input type="submit" class="btn btn-danger" name="reset" value="Resetuj">
+            </div>
+            <div class="col-md-4 text-end">
             <a class="btn btn-success" href="dodaj_prac.php" role="button">Dodaj Pracownika</a>
             </div>
         </div>
