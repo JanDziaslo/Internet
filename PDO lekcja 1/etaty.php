@@ -1,5 +1,54 @@
 <?php
 require_once 'database.php';
+
+if (isset($_GET['action'], $_GET['idp']) && $_GET['action'] === 'delete') {
+    $idp = $_GET['idp'];
+
+    $stmt = $pdo ->prepare("SELECT NAZWA FROM etaty WHERE NAZWA = :idp");
+    $stmt -> bindValue(':idp', $idp, PDO::PARAM_STR);
+    $stmt -> execute();
+    $etat = $stmt -> fetch(PDO::FETCH_ASSOC);
+
+
+    if ($etat === false)
+    {
+        echo '<script> alert("Etat o podanej nazwie nie istnieje"); history.back() </script>';
+        exit();
+
+    }
+    else
+    {
+        echo '<script>
+            if (confirm("Czy na pewno chcesz usunąć ten etat?")) {
+                window.location.href = "?action=con&idp=' . $idp . '";}
+            else {
+                history.back();
+            }
+            </script>';
+    }
+}
+if (isset($_GET['action'], $_GET['idp']) && $_GET['action'] === 'con') {
+    $idp = $_GET['idp'];
+
+    $stmt = $pdo ->prepare("SELECT NAZWA FROM etaty WHERE NAZWA = :idp");
+    $stmt -> bindValue(':idp', $idp, PDO::PARAM_STR);
+    $stmt -> execute();
+    $etat = $stmt -> fetch(PDO::FETCH_ASSOC);
+
+    if ($etat === false)
+    {
+        echo '<script> alert("Etat o podanej nazwie nie istnieje"); history.back(); </script>';
+        exit();
+    }
+    else
+    {
+        $stmt = $pdo->prepare('DELETE FROM etaty WHERE NAZWA = :idp');
+        $stmt->bindValue(':idp', $idp, PDO::PARAM_STR);
+        $stmt->execute();
+        header('Location: etaty.php');
+        exit();
+    }
+}
 ?>
 <!doctype html>
 <html lang="pl" data-bs-theme="dark">

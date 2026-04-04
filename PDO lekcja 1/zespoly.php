@@ -34,7 +34,7 @@ if (isset($_GET['action'], $_GET['idp']) && $_GET['action'] === 'delete') {
 if (isset($_GET['action'], $_GET['idp']) && $_GET['action'] === 'con') {
     $idp = (int)$_GET['idp'];
 
-    $stmt = $pdo ->prepare("SELECT ID_zESP FROM zespoly WHERE ID_ZESP = :idp");
+    $stmt = $pdo ->prepare("SELECT ID_ZESP FROM zespoly WHERE ID_ZESP = :idp");
     $stmt -> bindValue(':idp', $idp, PDO::PARAM_INT);
     $stmt -> execute();
     $zespol = $stmt -> fetch(PDO::FETCH_ASSOC);
