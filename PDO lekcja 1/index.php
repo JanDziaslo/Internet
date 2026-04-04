@@ -53,7 +53,7 @@ if (isset($_GET['action'], $_GET['idp']) && $_GET['action'] === 'con') {
         $stmt = $pdo->prepare('DELETE FROM pracownicy WHERE ID_PRAC = :idp');
         $stmt->bindValue(':idp', $idp, PDO::PARAM_INT);
         $stmt->execute();
-        header('Location: zespoly.php');
+        header('Location: index.php');
         exit();
     }
 }
