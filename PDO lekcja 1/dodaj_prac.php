@@ -413,5 +413,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 
 
 <script src="../CDN/js/bootstrap.bundle.min.js"></script>
+<script src="../CDN/jqeury/jquery-4.0.0.min.js"></script>
 </body>
 </html>
