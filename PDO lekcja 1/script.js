@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     getWorkers();
-    getWorkersFilter();
+    getWorkersSzukajka();
 
 });
 
@@ -14,14 +14,14 @@ function getWorkers(){
     })
 }
 
-function getWorkersFilter(){
-    $('#form').on('submit',function(e){
+function getWorkersSzukajka(){
+    $('#szukajka').on('submit',function(e){
         e.preventDefault();
         $('#workersData').html('<tr>\n' +
             '                        <td colspan="9"><div class="loader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></td>\n' +
             '                    </tr>');
         $.ajax({
-            url: "getWorkersFilter.php",
+            url: "getWorkersSzukajka.php",
             method: 'POST',
             data: {
                 search: $('#search').val(),
@@ -31,4 +31,8 @@ function getWorkersFilter(){
         });
     });
 
+}
+
+function dodawnie_prac() {
+    $('#szukajka-tabela').replaceWith('<div class="alert alert-info">taa... zapowiada sie ciekawa przygoda</div>');
 }

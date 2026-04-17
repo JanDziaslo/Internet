@@ -1,5 +1,5 @@
 <?php
-require_once 'database.php';
+//require_once 'database.php';
 
 if (isset($_GET['action'], $_GET['idp']) && $_GET['action'] === 'delete') {
     $idp = (int)$_GET['idp'];
@@ -92,17 +92,17 @@ if (isset($_GET['action'], $_GET['idp']) && $_GET['action'] === 'con') {
 
 <?php
 
-if ($bazaErr)
-        {
-            echo '<div class="alert alert-danger d-flex align-items-center" role="alert">
-                  <svg class="bi flex-shrink-0 me-2" width="16" height="16" fill="currentColor" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-                  <div class="text-center">
-                    <div class="text-center">Połączenie z bazą danych nie zostało nawiązane: <br>';
-            echo  '  
-                  </div>
-                  </div>';
-            exit();
-        }
+//if ($bazaErr)
+//        {
+//            echo '<div class="alert alert-danger d-flex align-items-center" role="alert">
+//                  <svg class="bi flex-shrink-0 me-2" width="16" height="16" fill="currentColor" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+//                  <div class="text-center">
+//                    <div class="text-center">Połączenie z bazą danych nie zostało nawiązane: <br>';
+//            echo  '
+//                  </div>
+//                  </div>';
+//            exit();
+//        }
 
 //if(isset($_POST['submit']) && $_POST['search']!=''){
 //    $stmt = $pdo->prepare("SELECT p.*, z.NAZWA AS NAZWA_ZESPOLU, sz.IMIE AS IMIE_SZEFA, sz.NAZWISKO AS NAZWISKO_SZEFA
@@ -146,51 +146,53 @@ if ($bazaErr)
 </nav>
 
 <div class="container">
-    <form action="" method="post">
-        <div class="row my-5">
-            <div class="col-md-4">
-                <input type="text" class="form-control" name="search" />
+    <div id="szukajka-tabela">
+        <form action="" method="post" id="szukajka">
+            <div class="row my-5">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="search" id="search" />
+                </div>
+                <div class="col-md-1 text-left">
+                    <input type="submit" class="btn btn-primary" name="submit" value="Szukaj" />
+                </div>
+                <div class="col-md-3 ">
+                    <input type="submit" class="btn btn-danger" name="reset" value="Resetuj">
+                </div>
+                <div class="col-md-4 text-end">
+                <a class="btn btn-success" onclick="dodawnie_prac()" role="button">Dodaj Pracownika</a>
+                </div>
             </div>
-            <div class="col-md-1 text-left">
-                <input type="submit" class="btn btn-primary" name="submit" value="Szukaj" />
-            </div>
-            <div class="col-md-3 ">
-                <input type="submit" class="btn btn-danger" name="reset" value="Resetuj">
-            </div>
-            <div class="col-md-4 text-end">
-            <a class="btn btn-success" href="dodaj_prac.php" role="button">Dodaj Pracownika</a>
-            </div>
-        </div>
-    </form>
-    <div class="row">
-        <div class="col-12">
+        </form>
+        <div class="row">
+            <div class="col-12">
 
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Id prac</th>
-                    <th>Imię</th>
-                    <th>Nazwisko</th>
-                    <th>Etat</th>
-                    <th>Szef</th>
-                    <th>Zatrudniony</th>
-                    <th>Placa pod</th>
-                    <th>Placa dod</th>
-                    <th>Nazwa zespołu</th>
-                    <th>Akcje</th>
-                </tr>
-                </thead>
-                <tbody id="workersData">
-                <tr>
-                    <td colspan="10">
-                        <div class="d-flex justify-content-center">
-                            <div class="loader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Id prac</th>
+                        <th>Imię</th>
+                        <th>Nazwisko</th>
+                        <th>Etat</th>
+                        <th>Szef</th>
+                        <th>Zatrudniony</th>
+                        <th>Placa pod</th>
+                        <th>Placa dod</th>
+                        <th>Nazwa zespołu</th>
+                        <th>Akcje</th>
+                    </tr>
+                    </thead>
+                    <tbody id="workersData">
+                    <tr>
+                        <td colspan="10">
+                            <div class="d-flex justify-content-center">
+                                <div class="loader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
 
+            </div>
         </div>
     </div>
 </div>
