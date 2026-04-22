@@ -150,13 +150,13 @@ if (isset($_GET['action'], $_GET['idp']) && $_GET['action'] === 'con') {
         <form action="" method="post" id="szukajka">
             <div class="row my-5">
                 <div class="col-md-4">
-                    <input type="text" class="form-control" name="search" id="search" />
+                    <input type="text" class="form-control" name="search" id="search" placeholder="Wyszukaj pracownika" />
                 </div>
                 <div class="col-md-1 text-left">
                     <input type="submit" class="btn btn-primary" name="submit" value="Szukaj" />
                 </div>
                 <div class="col-md-3 ">
-                    <input type="submit" class="btn btn-danger" name="reset" value="Resetuj">
+                    <input type="submit" class="btn btn-danger" onclick="getWorkers()" name="reset" value="Resetuj">
                 </div>
                 <div class="col-md-4 text-end">
                 <a class="btn btn-success" onclick="dodawnie_prac()" role="button">Dodaj Pracownika</a>

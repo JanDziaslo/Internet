@@ -18,8 +18,12 @@ function getWorkersSzukajka(){
     $('#szukajka').on('submit',function(e){
         e.preventDefault();
         $('#workersData').html('<tr>\n' +
-            '                        <td colspan="9"><div class="loader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></td>\n' +
-            '                    </tr>');
+            '    <td colspan="10">\n' +
+            '        <div class="d-flex justify-content-center w-100">\n' +
+            '            <div class="loader"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>\n' +
+            '        </div>\n' +
+            '    </td>\n' +
+            '</tr>');
         $.ajax({
             url: "getWorkersSzukajka.php",
             method: 'POST',
