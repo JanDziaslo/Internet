@@ -18,8 +18,8 @@ foreach ($stmt as $row){
     echo '<td>'.$row['PLACA_POD'].'</td>';
     echo '<td>'.$row['PLACA_DOD'].'</td>';
     echo '<td>'.$row['NAZWA_ZESPOLU'].'</td>';
-    echo '<td><a href="edytuj_prac.php?id='.$row['ID_PRAC'].'"><button type="button" class="btn btn-outline-secondary me-2"><svg width="16" height="16" fill="white"><use xlink:href="#pencil"></use></svg></button></a>';
-    echo '<a href="index.php?action=delete&idp='.$row['ID_PRAC'].'"><button type="button" class="btn btn-outline-secondary me-2"><svg width="16" height="16" fill="red"><use xlink:href="#smietnik"></use></svg></button></a>';
+    echo '<td><button type="button" onclick="edycja_prac('.$row['ID_PRAC'].')" class="btn btn-outline-secondary me-2"><svg width="16" height="16" fill="white"><use xlink:href="#pencil"></use></svg></button>';
+    echo '<button type="button" onclick="delPrac('.$row['ID_PRAC'].')" class="btn btn-outline-secondary me-2"><svg width="16" height="16" fill="red"><use xlink:href="#smietnik"></use></svg></button>';
     echo '</tr>';
 }
 

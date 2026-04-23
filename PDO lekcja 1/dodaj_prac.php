@@ -404,7 +404,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 
         <div class="d-flex align-items-center">
             <button type="submit" class="btn btn-primary">Dodaj pracownika</button>
-            <a href="index.php" class="btn btn-danger ms-auto">Wróć</a>
+            <a onclick="pracWroc()" class="btn btn-danger ms-auto">Wróć</a>
         </div>
 
     </form>
@@ -414,5 +414,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 
 <script src="../CDN/js/bootstrap.bundle.min.js"></script>
 <script src="../CDN/jqeury/jquery-4.0.0.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
