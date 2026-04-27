@@ -58,7 +58,7 @@
                     <input type="submit" class="btn btn-primary" name="submit" value="Szukaj" />
                 </div>
                 <div class="col-md-3 ">
-                    <input type="submit" class="btn btn-danger" onclick="getWorkers()" name="reset" value="Resetuj">
+                    <button type="button" class="btn btn-danger" onclick="document.getElementById('search').value=''; getWorkers()">Resetuj</button>
                 </div>
                 <div class="col-md-4 text-end">
                 <a class="btn btn-success" onclick="dodawnie_prac()" role="button">Dodaj Pracownika</a>
