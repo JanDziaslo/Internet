@@ -1,0 +1,21 @@
+.bbcode-btn {
+    font-weight: bold;
+    min-width: 38px;
+}
+
+.bbcode-btn[data-tag="i"] {
+    font-style: italic;
+    font-family: serif;
+}
+
+.bbcode-btn[data-tag="u"] {
+    text-decoration: underline;
+}
+
+.bbcode-btn[data-tag="s"] {
+    text-decoration: line-through;
+}
+
+#char-count.text-danger {
+    font-weight: bold;
+}
