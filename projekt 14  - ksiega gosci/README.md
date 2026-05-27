@@ -12,6 +12,7 @@ Skrypt powinien umożliwiać:
 - [ ] Po zalogowaniu do panelu administracyjnego administrator powinien mieć możliwość przejrzenia wpisów do
 moderacji oraz zaakceptowania bądź odrzucenia wpisu.
 
+---
 
 ## W miare mozliwosci i checi do zrobienia:
 
