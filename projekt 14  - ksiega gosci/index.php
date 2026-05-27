@@ -1,6 +1,12 @@
 <?php
 require_once 'database.php';
 
+$entries = [];
+if (!$bazaErr) {
+    $stmt = $pdo->prepare("SELECT id, author_name, author_email, content, content_html, created_at FROM entries WHERE status = 'approved' ORDER BY created_at DESC");
+    $stmt->execute();
+    $entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 ?>
 <!doctype html>
 <html lang="pl" data-bs-theme="dark">
@@ -32,5 +38,43 @@ require_once 'database.php';
             </div>
         </div>
     </nav>
+
+    <div class="container mt-4">
+        <?php if ($bazaErr): ?>
+            <div class="alert alert-danger">Przepraszamy, wystąpił błąd połączenia z bazą danych.</div>
+        <?php elseif (empty($entries)): ?>
+            <div class="alert alert-info">Brak wpisów w księdze gości.</div>
+        <?php else: ?>
+            <h1 class="mb-4 text-center">Wpisy</h1>
+            <?php foreach ($entries as $entry): ?>
+                <div class="card mb-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>
+                            <strong><?= htmlspecialchars($entry['author_name']) ?></strong>
+                            <?php if ($entry['author_email']): ?>
+                                <a href="mailto:<?= htmlspecialchars($entry['author_email']) ?>" class="ms-2 text-decoration-none small">
+                                    <?= htmlspecialchars($entry['author_email']) ?>
+                                </a>
+                            <?php endif; ?>
+                        </span>
+                        <small class="text-muted"><?= date('d.m.Y H:i', strtotime($entry['created_at'])) ?></small>
+                    </div>
+                    <div class="card-body">
+                        <?php if ($entry['content_html']): ?>
+                            <?= $entry['content_html'] ?>
+                        <?php else: ?>
+                            <?= nl2br(htmlspecialchars($entry['content'])) ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+
+
+
+    <script src="../CDN/js/bootstrap.bundle.min.js"></script>
+    <script src="../CDN/jqeury/jquery-4.0.0.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
