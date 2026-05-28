@@ -1,4 +1,17 @@
 $(function () {
+    $('#toggle-form-btn').on('click', function () {
+        var $form = $('#form-container');
+        var $btn = $(this);
+
+        if ($form.hasClass('d-none')) {
+            $form.removeClass('d-none');
+            $btn.text('Ukryj formularz');
+        } else {
+            $form.addClass('d-none');
+            $btn.html('<i class="me-1">+</i> Dodaj wpis');
+        }
+    });
+
     $('.bbcode-btn').on('click', function () {
         var tag = $(this).data('tag');
         var textarea = $('#content');

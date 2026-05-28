@@ -154,38 +154,15 @@ if (!$bazaErr) {
 
             <div id="alert-container"></div>
 
-            <h1 class="mb-4 text-center">Wpisy</h1>
+            <h1 class="mb-4 text-center">Księga Gości</h1>
 
-            <div id="entries-container">
-                <?php if (empty($entries)): ?>
-                    <div class="alert alert-info">Brak wpisów w księdze gości.</div>
-                <?php else: ?>
-                    <?php foreach ($entries as $entry): ?>
-                        <div class="card mb-3 entry-card">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <span>
-                                    <strong><?= htmlspecialchars($entry['author_name']) ?></strong>
-                                    <?php if ($entry['author_email']): ?>
-                                        <a href="mailto:<?= htmlspecialchars($entry['author_email']) ?>" class="ms-2 text-decoration-none small">
-                                            <?= htmlspecialchars($entry['author_email']) ?>
-                                        </a>
-                                    <?php endif; ?>
-                                </span>
-                                <small class="text-muted"><?= date('d.m.Y H:i', strtotime($entry['created_at'])) ?></small>
-                            </div>
-                            <div class="card-body">
-                                <?php if ($entry['content_html']): ?>
-                                    <?= $entry['content_html'] ?>
-                                <?php else: ?>
-                                    <?= nl2br(htmlspecialchars($entry['content'])) ?>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+            <div class="text-end mb-3">
+                <button id="toggle-form-btn" class="btn btn-primary" type="button">
+                    <i class="me-1">+</i> Dodaj wpis
+                </button>
             </div>
 
-            <div class="card mb-4">
+            <div id="form-container" class="card mb-4 d-none">
                 <div class="card-header">
                     <h5 class="mb-0">Dodaj nowy wpis</h5>
                 </div>
@@ -235,8 +212,40 @@ if (!$bazaErr) {
                     </form>
                 </div>
             </div>
+
+            <h2 class="mb-3 text-center">Wpisy</h2><br>
+
+            <div id="entries-container">
+                <?php if (empty($entries)): ?>
+                    <div class="alert alert-info">Brak wpisów w księdze gości.</div>
+                <?php else: ?>
+                    <?php foreach ($entries as $entry): ?>
+                        <div class="card mb-3 entry-card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <span>
+                                    <strong><?= htmlspecialchars($entry['author_name']) ?></strong>
+                                    <?php if ($entry['author_email']): ?>
+                                        <a href="mailto:<?= htmlspecialchars($entry['author_email']) ?>" class="ms-2 text-decoration-none small">
+                                            <?= htmlspecialchars($entry['author_email']) ?>
+                                        </a>
+                                    <?php endif; ?>
+                                </span>
+                                <small class="text-muted"><?= date('d.m.Y H:i', strtotime($entry['created_at'])) ?></small>
+                            </div>
+                            <div class="card-body">
+                                <?php if ($entry['content_html']): ?>
+                                    <?= $entry['content_html'] ?>
+                                <?php else: ?>
+                                    <?= nl2br(htmlspecialchars($entry['content'])) ?>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
         <?php endif; ?>
     </div>
+
 
     <script src="../CDN/js/bootstrap.bundle.min.js"></script>
     <script src="../CDN/jqeury/jquery-4.0.0.min.js"></script>

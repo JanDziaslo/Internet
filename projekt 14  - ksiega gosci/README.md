@@ -6,7 +6,7 @@ Zadanie polega na napisaniu skryptu php z wykorzystaniem technologii Ajax realiz
 z moderacją.
 
 Skrypt powinien umożliwiać:
-- [ ] Dodawanie wpisów przez użytkowników.
+- [x] Dodawanie wpisów przez użytkowników.
 - [ ] Zalogowanie się do panelu administratora.
 - [x] Skrypt powinien posiadać prosty edytor umożliwiający wstawianie i interpretację BBCode
 - [ ] Po zalogowaniu do panelu administracyjnego administrator powinien mieć możliwość przejrzenia wpisów do
