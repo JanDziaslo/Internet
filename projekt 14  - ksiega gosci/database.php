@@ -1,4 +1,5 @@
 <?php
+session_start();
 $bazaErr = false;
 $host = '100.125.41.106';
 $port = '13306';
