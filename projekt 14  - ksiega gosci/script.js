@@ -149,3 +149,146 @@ $(function () {
             });
     });
 });
+
+
+// Nawigacja do wskazanej strony przez Ajax
+window.navigateTo = function(url) {
+    // Pokaż spinner ładowania
+    $('#main-content').html(
+        '<div class="container mt-4"><div class="text-center py-5"><div class="spinner-border" role="status"><span class="visually-hidden">Ładowanie...</span></div><p class="mt-2 text-muted">Ładowanie...</p></div></div>'
+    );
+
+    $.ajax({
+        url: url + (url.indexOf('?') === -1 ? '?' : '&') + 'ajax=1',
+        method: 'GET',
+        dataType: 'html'
+    })
+    .done(function(html) {
+        // Wyodrębnij #main-content z odpowiedzi
+        var $tmp = $('<div>').html(html);
+        var $newContent = $tmp.find('#main-content');
+
+        if ($newContent.length === 0) {
+            // Fallback: normalne przejście
+            window.location.href = url;
+            return;
+        }
+
+        var contentHtml = $newContent.html();
+
+        // Wyodrębnij skrypty (bez CDN bootstrap/jquery)
+        var $content = $('<div>').html(contentHtml);
+        var scriptsToRun = [];
+
+        $content.find('script').each(function() {
+            var src = $(this).attr('src') || '';
+            var code = $(this).text();
+
+            // Pomiń skrypty CDN (bootstrap, jquery)
+            if (src && (src.indexOf('bootstrap') !== -1 || src.indexOf('jquery') !== -1)) {
+                return;
+            }
+
+            if (code && code.trim()) {
+                scriptsToRun.push(code);
+            }
+        });
+
+        // Usuń wszystkie skrypty z contentu
+        $content.find('script').remove();
+
+        // Wstaw zawartość
+        $('#main-content').html($content.html());
+
+        // Zaktualizuj URL
+        history.pushState({ url: url }, '', url);
+
+        // Zaktualizuj aktywny link w nawigacji
+        updateActiveNav(url);
+
+        // Wykonaj skrypty w kolejności
+        scriptsToRun.forEach(function(code) {
+            try {
+                var scriptEl = document.createElement('script');
+                scriptEl.text = code;
+                document.body.appendChild(scriptEl);
+            } catch(e) {
+                console.error('Błąd wykonania skryptu:', e);
+            }
+        });
+    })
+    .fail(function() {
+        // Fallback przy błędzie
+        window.location.href = url;
+    });
+};
+
+// Aktualizacja aktywnego linku w nawigacji
+function updateActiveNav(url) {
+    $('#navbarNav .nav-link').removeClass('active').removeAttr('aria-current');
+    $('#navbarNav .nav-link[href="' + url + '"]').addClass('active').attr('aria-current', 'page');
+}
+
+// Obsługa kliknięć w linki nawigacyjne
+$(document).on('click', '#navbarNav .nav-link', function(e) {
+    var href = $(this).attr('href');
+    if (!href || href === '#' || href.indexOf('http') === 0 || href.indexOf('mailto:') === 0) {
+        return;
+    }
+
+    // Nie przechwytuj linku wylogowania
+    if (href.indexOf('logout.php') !== -1) {
+        return;
+    }
+
+    e.preventDefault();
+    navigateTo(href);
+});
+
+// Obsługa przycisków Wstecz/Dalej w przeglądarce
+$(window).on('popstate', function(e) {
+    if (e.originalEvent.state && e.originalEvent.state.url) {
+        var url = e.originalEvent.state.url;
+
+        $.ajax({
+            url: url + (url.indexOf('?') === -1 ? '?' : '&') + 'ajax=1',
+            method: 'GET',
+            dataType: 'html'
+        })
+        .done(function(html) {
+            var $tmp = $('<div>').html(html);
+            var $newContent = $tmp.find('#main-content');
+
+            if ($newContent.length === 0) {
+                window.location.href = url;
+                return;
+            }
+
+            var contentHtml = $newContent.html();
+            var $content = $('<div>').html(contentHtml);
+            var scriptsToRun = [];
+
+            $content.find('script').each(function() {
+                var src = $(this).attr('src') || '';
+                var code = $(this).text();
+                if (src && (src.indexOf('bootstrap') !== -1 || src.indexOf('jquery') !== -1)) return;
+                if (code && code.trim()) scriptsToRun.push(code);
+            });
+
+            $content.find('script').remove();
+            $('#main-content').html($content.html());
+            updateActiveNav(url);
+
+            scriptsToRun.forEach(function(code) {
+                try {
+                    var scriptEl = document.createElement('script');
+                    scriptEl.text = code;
+                    document.body.appendChild(scriptEl);
+                } catch(e) {}
+            });
+        })
+        .fail(function() {
+            window.location.href = url;
+        });
+    }
+});

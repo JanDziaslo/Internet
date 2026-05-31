@@ -20,4 +20,4 @@ moderacji oraz zaakceptowania bądź odrzucenia wpisu.
 - [x] przniesienie alertu w inne miejsce po dodaniu wpisu
 - [x] moze zamiast na koncu miec formularz do dodawania wpisow ukryc go pod przyciskiem
 - [x] cos sie jeszcze pewnie znajdzie
-- [ ] poprawa ajaxa 
+- [x] poprawa ajaxa 
