@@ -1,5 +1,8 @@
 $(function () {
-    $('#toggle-form-btn').on('click', function () {
+    var charLimit = parseInt($('#content').attr('maxlength'));
+
+    // Delegowane zdarzenia (działają nawet po podmianie treści przez Ajax)
+    $(document).on('click', '#toggle-form-btn', function () {
         var $form = $('#form-container');
         var $btn = $(this);
 
@@ -12,7 +15,7 @@ $(function () {
         }
     });
 
-    $('.bbcode-btn').on('click', function () {
+    $(document).on('click', '.bbcode-btn', function () {
         var tag = $(this).data('tag');
         var textarea = $('#content');
         var start = textarea[0].selectionStart;
@@ -25,10 +28,10 @@ $(function () {
             case 'url':
                 if (selected) {
                     replacement = '[url=' + selected + ']' + selected + '[/url]';
-                    cursorOffset = 6 + selected.length + selected.length; // po drugim selected
+                    cursorOffset = 6 + selected.length + selected.length;
                 } else {
                     replacement = '[url=]URL[/url]';
-                    cursorOffset = 6; // po [url=]
+                    cursorOffset = 6;
                 }
                 break;
             case 'email':
@@ -37,7 +40,7 @@ $(function () {
                     cursorOffset = 7 + selected.length;
                 } else {
                     replacement = '[email]email@example.com[/email]';
-                    cursorOffset = 7; // po [email]
+                    cursorOffset = 7;
                 }
                 break;
             case 'img':
@@ -46,30 +49,30 @@ $(function () {
                     cursorOffset = 5 + selected.length;
                 } else {
                     replacement = '[img]https://example.com/image.jpg[/img]';
-                    cursorOffset = 5; // po [img]
+                    cursorOffset = 5;
                 }
                 break;
             case 'color':
                 if (selected) {
                     replacement = '[color=' + selected + ']' + selected + '[/color]';
-                    cursorOffset = 8 + selected.length + selected.length; // po drugim selected
+                    cursorOffset = 8 + selected.length + selected.length;
                 } else {
                     replacement = '[color=red]tekst[/color]';
-                    cursorOffset = 11; // po [color=red] (7+3+1)
+                    cursorOffset = 11;
                 }
                 break;
             case 'size':
                 if (selected) {
                     replacement = '[size=' + selected + ']' + selected + '[/size]';
-                    cursorOffset = 7 + selected.length + selected.length; // po drugim selected
+                    cursorOffset = 7 + selected.length + selected.length;
                 } else {
                     replacement = '[size=large]tekst[/size]';
-                    cursorOffset = 12; // po [size=large] (6+5+1)
+                    cursorOffset = 12;
                 }
                 break;
             case 'list':
                 replacement = '[list]\n[*]element 1[/*]\n[*]element 2[/*]\n[/list]';
-                cursorOffset = 10; // po [list]\n[*]
+                cursorOffset = 10;
                 break;
             case 'center':
                 replacement = '[center]' + selected + '[/center]';
@@ -93,8 +96,7 @@ $(function () {
         textarea.focus().trigger('input');
     });
 
-    var charLimit = parseInt($('#content').attr('maxlength'));
-    $('#content').on('input', function () {
+    $(document).on('input', '#content', function () {
         var len = $(this).val().length;
         var $count = $('#char-count');
         $count.text(len);
@@ -105,7 +107,7 @@ $(function () {
         }
     });
 
-    $('#entry-form').on('submit', function (e) {
+    $(document).on('submit', '#entry-form', function (e) {
         e.preventDefault();
 
         var form = $(this);
