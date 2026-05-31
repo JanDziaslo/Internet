@@ -150,6 +150,11 @@ $(function () {
                 submitBtn.prop('disabled', false).text('Dodaj wpis');
             });
     });
+
+    // Przy starcie strony: załaduj wpisy jeśli jesteśmy na stronie głównej
+    if ($('#entries-container').length) {
+        loadEntries();
+    }
 });
 
 
@@ -166,9 +171,9 @@ window.navigateTo = function(url) {
         dataType: 'html'
     })
     .done(function(html) {
-        // Wyodrębnij #main-content z odpowiedzi
-        var $tmp = $('<div>').html(html);
-        var $newContent = $tmp.find('#main-content');
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(html, 'text/html');
+        var $newContent = $(doc).find('#main-content');
 
         if ($newContent.length === 0) {
             // Fallback: normalne przejście
@@ -218,6 +223,11 @@ window.navigateTo = function(url) {
                 console.error('Błąd wykonania skryptu:', e);
             }
         });
+
+        // Jeśli załadowano stronę z wpisami, uruchom loadEntries
+        if ($newContent.find('#entries-container').length) {
+            loadEntries();
+        }
     })
     .fail(function() {
         // Fallback przy błędzie
@@ -258,37 +268,38 @@ $(window).on('popstate', function(e) {
             dataType: 'html'
         })
         .done(function(html) {
-            var $tmp = $('<div>').html(html);
-            var $newContent = $tmp.find('#main-content');
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(html, 'text/html');
+        var $newContent = $(doc).find('#main-content');
 
-            if ($newContent.length === 0) {
-                window.location.href = url;
-                return;
-            }
+        if ($newContent.length === 0) {
+            window.location.href = url;
+            return;
+        }
 
-            var contentHtml = $newContent.html();
-            var $content = $('<div>').html(contentHtml);
-            var scriptsToRun = [];
+        var contentHtml = $newContent.html();
+        var $content = $('<div>').html(contentHtml);
+        var scriptsToRun = [];
 
-            $content.find('script').each(function() {
-                var src = $(this).attr('src') || '';
-                var code = $(this).text();
-                if (src && (src.indexOf('bootstrap') !== -1 || src.indexOf('jquery') !== -1)) return;
-                if (code && code.trim()) scriptsToRun.push(code);
-            });
+        $content.find('script').each(function() {
+            var src = $(this).attr('src') || '';
+            var code = $(this).text();
+            if (src && (src.indexOf('bootstrap') !== -1 || src.indexOf('jquery') !== -1)) return;
+            if (code && code.trim()) scriptsToRun.push(code);
+        });
 
-            $content.find('script').remove();
-            $('#main-content').html($content.html());
-            updateActiveNav(url);
+        $content.find('script').remove();
+        $('#main-content').html($content.html());
+        updateActiveNav(url);
 
-            scriptsToRun.forEach(function(code) {
-                try {
-                    var scriptEl = document.createElement('script');
-                    scriptEl.text = code;
-                    document.body.appendChild(scriptEl);
-                } catch(e) {}
-            });
-        })
+        scriptsToRun.forEach(function(code) {
+            try {
+                var scriptEl = document.createElement('script');
+                scriptEl.text = code;
+                document.body.appendChild(scriptEl);
+            } catch(e) {}
+        });
+    })
         .fail(function() {
             window.location.href = url;
         });

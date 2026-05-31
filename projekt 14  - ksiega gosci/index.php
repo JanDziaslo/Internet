@@ -189,7 +189,86 @@ ob_start();
             </div>
         </div>
     <?php endif; ?>
-</div>
+ </div>
+<script>
+// Pomocnicze funkcje
+window.escapeHtml = function(text) {
+    if (!text) return '';
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(text));
+    return div.innerHTML;
+};
+
+window.formatDate = function(dateStr) {
+    var d = new Date(dateStr);
+    var day = String(d.getDate()).padStart(2, '0');
+    var month = String(d.getMonth() + 1).padStart(2, '0');
+    var year = d.getFullYear();
+    var hours = String(d.getHours()).padStart(2, '0');
+    var minutes = String(d.getMinutes()).padStart(2, '0');
+    return day + '.' + month + '.' + year + ' ' + hours + ':' + minutes;
+};
+
+window.nl2br = function(text) {
+    return text.replace(/\n/g, '<br>');
+};
+
+// Ładowanie wpisów przez Ajax
+window.loadEntries = function() {
+    $.ajax({
+        url: 'api/entries.php',
+        method: 'GET',
+        dataType: 'json'
+    })
+    .done(function(response) {
+        if (response.success) {
+            renderEntries(response.entries || []);
+        } else {
+            $('#entries-container').html(
+                '<div class="alert alert-danger">Nie udało się załadować wpisów.</div>'
+            );
+        }
+    })
+    .fail(function() {
+        $('#entries-container').html(
+            '<div class="alert alert-danger">Błąd połączenia z serwerem.</div>'
+        );
+    });
+};
+
+window.renderEntries = function(entries) {
+    if (entries.length === 0) {
+        $('#entries-container').html(
+            '<div class="alert alert-info">Brak wpisów w księdze gości.</div>'
+        );
+        return;
+    }
+
+    var html = '';
+    entries.forEach(function(entry) {
+        html += '<div class="card mb-3 entry-card">';
+        html += '<div class="card-header d-flex justify-content-between align-items-center">';
+        html += '<span>';
+        html += '<strong>' + escapeHtml(entry.author_name) + '</strong>';
+        if (entry.author_email) {
+            html += ' <a href="mailto:' + escapeHtml(entry.author_email) + '" class="ms-2 text-decoration-none small">' + escapeHtml(entry.author_email) + '</a>';
+        }
+        html += '</span>';
+        html += '<small class="text-muted">' + formatDate(entry.created_at) + '</small>';
+        html += '</div>';
+        html += '<div class="card-body">';
+        if (entry.content_html) {
+            html += entry.content_html;
+        } else {
+            html += nl2br(escapeHtml(entry.content));
+        }
+        html += '</div>';
+        html += '</div>';
+    });
+
+    $('#entries-container').html(html);
+};
+</script>
 <?php
 $mainContent = ob_get_clean();
 
@@ -219,89 +298,5 @@ if ($ajaxMode) {
     <script src="../CDN/js/bootstrap.bundle.min.js"></script>
     <script src="../CDN/jqeury/jquery-4.0.0.min.js"></script>
     <script src="script.js"></script>
-    <script>
-    $(function() {
-        // Pomocnicze funkcje
-        window.escapeHtml = function(text) {
-            if (!text) return '';
-            var div = document.createElement('div');
-            div.appendChild(document.createTextNode(text));
-            return div.innerHTML;
-        };
-
-        window.formatDate = function(dateStr) {
-            var d = new Date(dateStr);
-            var day = String(d.getDate()).padStart(2, '0');
-            var month = String(d.getMonth() + 1).padStart(2, '0');
-            var year = d.getFullYear();
-            var hours = String(d.getHours()).padStart(2, '0');
-            var minutes = String(d.getMinutes()).padStart(2, '0');
-            return day + '.' + month + '.' + year + ' ' + hours + ':' + minutes;
-        };
-
-        window.nl2br = function(text) {
-            return text.replace(/\n/g, '<br>');
-        };
-
-        // Ładowanie wpisów przez Ajax
-        function loadEntries() {
-            $.ajax({
-                url: 'api/entries.php',
-                method: 'GET',
-                dataType: 'json'
-            })
-            .done(function(response) {
-                if (response.success) {
-                    renderEntries(response.entries || []);
-                } else {
-                    $('#entries-container').html(
-                        '<div class="alert alert-danger">Nie udało się załadować wpisów.</div>'
-                    );
-                }
-            })
-            .fail(function() {
-                $('#entries-container').html(
-                    '<div class="alert alert-danger">Błąd połączenia z serwerem.</div>'
-                );
-            });
-        }
-
-        function renderEntries(entries) {
-            if (entries.length === 0) {
-                $('#entries-container').html(
-                    '<div class="alert alert-info">Brak wpisów w księdze gości.</div>'
-                );
-                return;
-            }
-
-            var html = '';
-            entries.forEach(function(entry) {
-                html += '<div class="card mb-3 entry-card">';
-                html += '<div class="card-header d-flex justify-content-between align-items-center">';
-                html += '<span>';
-                html += '<strong>' + escapeHtml(entry.author_name) + '</strong>';
-                if (entry.author_email) {
-                    html += ' <a href="mailto:' + escapeHtml(entry.author_email) + '" class="ms-2 text-decoration-none small">' + escapeHtml(entry.author_email) + '</a>';
-                }
-                html += '</span>';
-                html += '<small class="text-muted">' + formatDate(entry.created_at) + '</small>';
-                html += '</div>';
-                html += '<div class="card-body">';
-                if (entry.content_html) {
-                    html += entry.content_html;
-                } else {
-                    html += nl2br(escapeHtml(entry.content));
-                }
-                html += '</div>';
-                html += '</div>';
-            });
-
-            $('#entries-container').html(html);
-        }
-
-        // Załaduj wpisy po załadowaniu strony
-        loadEntries();
-    });
-    </script>
 </body>
 </html>
