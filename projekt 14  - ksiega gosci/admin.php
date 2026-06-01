@@ -359,6 +359,7 @@ if ($ajaxMode) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/svg+xml" href="book-half.svg">
     <title>Panel Administratora - Księga Gości</title>
     <link rel="stylesheet" href="../CDN/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
