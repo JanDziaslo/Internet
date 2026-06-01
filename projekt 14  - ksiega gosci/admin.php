@@ -240,7 +240,9 @@ ob_start();
                     $('#approved-entries').html(html);
                 }
 
-                $(document).off('.adminMod').on('click.adminMod', '.approve-btn', function() {
+                $(document).off('.adminMod');
+
+                $(document).on('click.adminMod', '.approve-btn', function() {
                     var id = $(this).data('id');
 
                     $.ajax({
@@ -262,7 +264,7 @@ ob_start();
                     });
                 });
 
-                $(document).off('.adminMod').on('click.adminMod', '.reject-btn', function() {
+                $(document).on('click.adminMod', '.reject-btn', function() {
                     var id = $(this).data('id');
 
                     $.ajax({
@@ -284,7 +286,7 @@ ob_start();
                     });
                 });
 
-                $(document).off('.adminMod').on('click.adminMod', '.delete-btn', function() {
+                $(document).on('click.adminMod', '.delete-btn', function() {
                     var id = $(this).data('id');
 
                     if (!confirm('Czy na pewno chcesz usunąć ten wpis? Tej operacji nie można cofnąć.')) {
