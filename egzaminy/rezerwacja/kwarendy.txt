@@ -1,0 +1,21 @@
+1.
+SELECT imie, nazwisko
+FROM rezerwacje
+WHERE wyzywienie = 3;
+
+2.
+SELECT COUNT(*) AS liczba_rezerwacji
+FROM rezerwacje
+WHERE Wycieczki_id = 2
+  AND wylot = 'Warszawa';
+
+3.
+SELECT wycieczki.miejsce, rezerwacje.imie, rezerwacje.nazwisko
+FROM wycieczki
+JOIN rezerwacje ON wycieczki.id = rezerwacje.Wycieczki_id;
+
+4.
+SELECT wycieczki.miejsce, SUM(rezerwacje.osob) AS liczba_osob
+FROM wycieczki
+JOIN rezerwacje ON wycieczki.id = rezerwacje.Wycieczki_id
+GROUP BY wycieczki.id, wycieczki.miejsce;

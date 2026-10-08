@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Biuro turystyczne</title>
+    <link rel="stylesheet" href="styl.css">
+</head>
+<body>
+    <header>
+        <h1>Rezerwacja wycieczek</h1>
+    </header>
+
+    <main>
+        <nav>
+            <button id="uczestnik" onclick="uczestnik()">Uczestnik</button>
+            <button id="rezerwacja" onclick="rezerwacja()">Rezerwacja</button>
+        </nav>
+
+        <section id="pierwsza">
+            <h2>Dane Klienta</h2>
+            <img src="osoba.png" alt="Klient">
+            <label for="imie">Imię</label>
+            <input type="text" name="imie" id="imie">
+            <label for="nazwisko">Nazwisko</label>
+            <input type="text" name="nazwisko" id="nazwisko">
+            <p><a href="wycieczki.html">Do strony głównej</a></p>
+        </section>
+
+        <section id="druga">
+            <h2>Dane rezerwacji</h2>
+            <span onclick="zmiana()">&laquo;</span>
+            <img src="pliki4/1.jpg" alt="wycieczki">
+            <span onclick="zmiana()">&raquo;</span>
+            <h4>Barcelona</h4>
+            <label for="osoby">Liczba osób: </label>
+            <input type="number" name="osoby" id="osoby" value="2" min="1" max="4" disabled><br>
+            <label for="miejsce">Miejsce wylotu: </label>
+            <select name="miejsce" id="miejsce" disabled>
+                <option value="warszawa">Warszawa</option>
+                <option value="krakow">Kraków</option>
+                <option value="wroclaw">Wrocław</option>
+            </select><br>
+            <input type="radio" name="jedzenie" id="sniadanie" disabled>
+            <label for="sniadanie">Śniadanie</label>
+            <input type="radio" name="jedzenie" id="sid" disabled>
+            <label for="sid">Śniadanie i obiadokolacja</label>
+            <input type="radio" name="jedzenie" id="all" disabled>
+            <label for="all">All inclusive</label>
+            <button>Sprawdź cenę</button>
+        </section>
+
+        <aside>
+            <img src="pliki4/1.jpg" alt="wyciekczki">
+            <img src="pliki4/2.jpg" alt="wyciekczki">
+            <img src="pliki4/3.jpg" alt="wyciekczki">
+            <img src="pliki4/1.jpg" alt="wyciekczki">
+            <img src="pliki4/2.jpg" alt="wyciekczki">
+            <img src="pliki4/3.jpg" alt="wyciekczki">
+            <img src="pliki4/1.jpg" alt="wyciekczki">
+            <img src="pliki4/2.jpg" alt="wyciekczki">
+            <img src="pliki4/3.jpg" alt="wyciekczki">
+
+        </aside>
+
+    </main>
+
+    <footer>
+        <p>Autor Strony: <em><strong>213769420</strong></em></p>
+    </footer>
+
+
+</body>
+<script>
+    document.getElementById('uczestnik').style = 'background-color: dodgerblue;'
+    function uczestnik() {
+        document.getElementById('uczestnik').style = 'background-color: skyblue;'
+        document.getElementById('rezerwacja').style = 'background-color: dodgerblue;'
+
+    }
+
+</script>
+</html>
