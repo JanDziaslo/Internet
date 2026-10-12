@@ -1,0 +1,15 @@
+kwarenda 1
+
+SELECT nazwa, ilosc, jednostka FROM leki where jednostka = 'szt.';
+
+kwarenda 2
+
+SELECT imie, nazwisko, rokUr FROM pacjenci where rokUr > 2000 AND imie LIKE '%a';
+
+kwarenda 3
+
+SELECT typ, COUNT(*) AS liczba_lekow from typy join leki on typy.idTypy=leki.idTypy GROUP BY typ;
+
+kwarenda 4
+
+CREATE USER 'Lekarz' IDENTIFIED BY 'Lek@rz';
