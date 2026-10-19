@@ -1,0 +1,19 @@
+kw1
+
+SELECT * FROM kontynenty;
+
+kw2
+
+SELECT nazwa, wartosccechy, plik FROM obiekty WHERE idrodzaj = 10;
+
+kw3
+
+SELECT idObiekt, panstwo,nazwa, wartoscCechy FROM obiekty WHERE idRodzaj= 10 AND idKontynent=6
+
+kw4
+
+INSERT INTO `osiagniecia` (`idObiekt`, `idTurysta`) VALUES (34, 2);
+
+kw5
+
+SELECT `idTurysta`, `nick` FROM `turysci`;
