@@ -1,0 +1,27 @@
+zapytanie 1
+
+SELECT imie, nazwisko from Kelnerzy ORDER by nazwisko DESC;
+
+zapytanie 2
+
+SELECT COUNT(*) AS liczba_zamowien
+FROM Zamowienia
+JOIN Stoliki ON Zamowienia.idStolika = Stoliki.id
+WHERE Stoliki.numerStolika = 3 AND Stoliki.sala = 1;
+
+Zapytanie 3
+
+SELECT DISTINCT Potrawy.nazwa
+FROM Potrawy
+JOIN ZamowieniaPotrawy ON Potrawy.id = ZamowieniaPotrawy.idPotrawy
+JOIN Zamowienia ON ZamowieniaPotrawy.idZamowienia = Zamowienia.id
+WHERE DATE(Zamowienia.dataZlozenia) = '2024-06-09';
+
+Zapytanie 4
+
+CREATE USER 'administrator'@'localhost' IDENTIFIED BY 'boss123!';
+
+Zapytanie 5
+
+ALTER TABLE Potrawy
+MODIFY COLUMN cena DECIMAL(6,2) NOT NULL;

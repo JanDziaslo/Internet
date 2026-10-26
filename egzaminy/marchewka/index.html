@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Restauracja Marchewka</title>
+    <link rel="stylesheet" href="styl.css">
+</head>
+<body>
+    <header>
+        <section id="h-lewy">
+            <h1>Restauracja Marchewka</h1>
+            <h3>Twoje wegetariańskie miejsce na mapie miasta</h3>
+        </section>
+
+        <section id="h-prawy">
+            <img src="pliki19/logo.png" alt="logo">
+        </section>
+    </header>
+
+    <main>
+        <section id="m-lewy">
+            <h4>Twoje zamówienie</h4>
+            <ol id="lista">
+
+            </ol>
+            <input type="button" value="Wyczyść" onclick="skrypt2()">
+            <input type="button" value="Zatwierdź" onclick="skrypt3()">
+        </section>
+
+        <section id="m-prawy">
+            <div id="nalesniki" onclick="skrypt1('Naleśniki')">
+                <img src="pliki19/nalesniki.webp" alt="Naleśniki">
+                <p>Naleśniki</p>
+            </div>
+
+            <div id="lasagne" onclick="skrypt1('Lasagne Szpinakowa')">
+                <img src="pliki19/lasagne.webp" alt="Lasagne Szpinakowa">
+                <p>Lasagne Szpinakowa</p>
+            </div>
+
+            <div id="marchewka" onclick="skrypt1('Pieczona Marchewka')">
+                <img src="pliki19/marchewka.webp" alt="Pieczona marchewka">
+                <p>Pieczona Marchewka</p>
+            </div>
+
+            <div id="rosol" onclick="skrypt1('Wege rosół')">
+                <img src="pliki19/rosol.webp" alt="Wege rosół">
+                <p>Wege rosół</p>
+            </div>
+
+            <div id="tarta" onclick="skrypt1('Tarta szparagowa')">
+                <img src="pliki19/tarta.webp" alt="Tarta szparagowa">
+                <p>Tarta szparagowa</p>
+            </div>
+
+            <div id="kompot" onclick="skrypt1('Kompot')">
+                <img src="pliki19/kompot.webp" alt="Kompot">
+                <p>Kompot</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Wykonał: Jan Dziąsło</p>
+    </footer>
+</body>
+<script>
+    function skrypt1(klik) {
+        var lista = document.getElementById('lista')
+        lista.innerHTML += "<li>"+ klik+ "</li>"
+    }
+
+    function skrypt2() {
+        var lista = document.getElementById('lista')
+        lista.innerHTML = ""
+    }
+
+    function skrypt3() {
+        var lista = document.getElementById('lista')
+        lista.innerHTML = ""
+        alert("Zamówienie zostało przekazane do realizacji")
+    }
+</script>
+</html>
